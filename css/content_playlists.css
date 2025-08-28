@@ -1,0 +1,7 @@
+.playlists{
+    width: 20rem;
+    border-right-width: 0px !important;
+    background-color: lightgrey;
+    flex-shrink: 0;
+    padding: 1rem;
+}

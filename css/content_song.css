@@ -1,0 +1,194 @@
+body{
+    margin: 0rem;
+    padding: 0rem;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+}
+
+p{
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
+}
+
+.content{
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    min-height: 0rem;
+    overflow: hidden;
+}
+
+.category{
+    border: solid 7px black;
+    border-radius: 20px;
+    margin: 0rem;
+}
+
+.icon:hover{
+    transform: scale(1.05);
+}
+
+.icon:active{
+    transform: scale(0.95) !important;
+}
+
+/* CSS SONG DISPLAYED */
+.song{
+    flex-shrink: 0;
+    width: 25rem;
+    border-left-width: 0px !important;
+    background-color: rgb(24, 24, 24);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-color: rgb(56, 56, 56) transparent;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+    padding: 1rem;
+}
+
+.img_song_displayed{
+    width: 100%;
+    z-index: 0;
+    margin-top: 0rem;
+    border-radius: 10px;
+}
+
+.playlist_song_displayed{
+    font-size: 1.05em;
+    margin-top: 0.3rem;
+}
+
+.container_tittle_artist_song{
+    width: 100%;
+    height: fit-content;
+}
+
+.tittle_song_displayed{
+    font-size: 1.5em;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.artist_song_displayed{
+    color: rgb(162, 162, 162);
+    margin: 0rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+    width: 100%;
+}
+
+/* About the artist */
+.about_artist_song_displayed{
+    margin-top: 1.5rem;
+    min-height: 13em;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 1rem;
+    flex-shrink: 0;
+    background-repeat: no-repeat;
+    background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0)
+    ),
+    url('../src/images/default.png') center/cover;
+}
+
+.text_about_artist, .artist_about_artist{
+    margin: 0rem;
+    font-weight: 600;
+}
+
+.info_about_artist_song_displayed{
+    background-color: rgb(41, 40, 40);
+    margin-top: 0rem;
+    min-height: fit-content;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 1rem;
+    flex-shrink: 0;
+}
+
+.oyentes_about_artist{
+    color: rgb(162, 162, 162);
+}
+
+.desc_about_artist{
+    color: rgb(162, 162, 162);
+    font-size: 0.9em;
+    text-align: justify;
+    line-break: loose;
+    hyphens: auto;
+}
+
+/* Next on queque*/
+.next_on_queque{
+    background-color: rgb(41, 40, 40);
+    margin-top: 1.2rem;
+    min-height: fit-content;
+    border-radius: 10px;
+    padding: 1rem;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.song_next_on_queque{
+    display: flex;
+    flex-direction: row;
+    padding: 0rem;
+    margin: 0rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.details_next_on_queque{
+    margin-left: 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.text_next_on_queque{
+    margin: 0rem;
+    font-weight: 600;
+}
+
+.img_next_on_queque{
+    width: 3em;
+    border-radius: 5px;
+}
+
+.tittle_next_on_queque{
+    margin-bottom: 0.3rem !important;
+    font-size: 1rem;
+    margin: 0rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.artist_next_on_queque{
+    font-size: 0.9rem;
+    margin: 0;
+    color: rgb(162, 162, 162);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}

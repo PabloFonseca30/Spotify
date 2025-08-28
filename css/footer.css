@@ -1,0 +1,224 @@
+/* FOOTER MUSIC PLAYER */
+.footer{
+    max-height: 6rem;
+    height: 6rem;
+    background-color: black;
+    width: auto;
+    margin: 0rem;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 0.6rem;
+}
+
+/* INFORMACIÓN DE LA CANCIÓN */
+.song_displayed_info{
+    width: 25%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 0rem;
+    margin: 0rem;
+    align-items: center;
+}
+
+.img_song_displayed_info{
+    height: 4rem;
+    border-radius: 5px;
+}
+
+.tittle_song_displayed_info{
+    margin-bottom: 0.3rem !important;
+    font-size: 1rem;
+    margin: 0rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.artist_song_displayed_info{
+    font-size: 0.9rem;
+    margin: 0;
+    color: rgb(162, 162, 162);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.details_song_displayed_info{
+    margin-left: 1rem;
+    height: fit-content;
+    overflow: hidden;
+    margin-right: 1rem;
+}
+/* REPRODUCTOR */
+.music_player{
+    width: 50%;
+    height: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container_buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+/* Icono de play/pause */ 
+.play_pause{
+    width: 2.35rem;
+    height: 2.35rem;
+    background-color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 0rem;
+    position: relative;
+    cursor: pointer;
+    margin-left: 1.3rem;
+    margin-right: 1.3rem;
+}
+
+.play_pause::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+    border-top: 0.5rem solid transparent;
+    border-bottom: 0.5rem solid transparent;
+    border-left: 0.9rem solid #000000;
+}
+
+.play_pause.playing::before {
+    border-top: 0;
+    border-bottom: 0;
+    border-left: 0;
+    width: 0.4rem;
+    height: 0.9rem;
+    border-left: 0.3rem solid #000;
+    border-right: 0.3rem solid #000;
+    transform: translate(-50%, -50%);
+}
+
+.play_pause:hover{
+    transform: scale(1.05);
+}
+
+.play_pause:active{
+    transform: scale(0.95) !important;
+}
+
+/* Iconos funciones */
+.backward_song_button, .forward_song_button{
+    height: 2.2rem;
+    cursor: pointer;
+}
+
+.repeat_song_button, .shuffle_song_button{
+    height: 1.6rem;
+    margin-top: 0.35rem;
+    cursor: pointer;
+}
+
+.backward_song_button{
+    margin-left: 1.3rem;
+}
+
+.forward_song_button{
+    margin-right: 1.3rem;
+}
+
+/* Barra de progreso */
+.progress_bar_container{
+    width: 38rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0rem;
+}
+
+.current_time, .total_time{
+    color: #B3B3B3;
+    font-size: 0.75em;
+}
+
+.current_time{
+    margin-right: 0.7rem;
+}
+
+.total_time{
+    margin-left: 0.7rem;
+}
+
+.progress_bar_outside{
+    background-color: #4D4D4D;
+    width: 32rem;
+    height: 0.3rem;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.progress_bar_inside{
+    background-color: white;
+    width: 0%;
+    height: 100%;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.progress_bar_inside:hover{
+    background-color: #00DB50 !important;
+}
+
+/* AJUSTES DEL REPRODUCTOR */
+.player_settings{
+    width: 25%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    padding-right: 2%;
+}
+
+.microphone_song_button, .queque_song_button, .volume_song_button{
+    height: 1.4rem;
+    cursor: pointer;
+}
+
+.queque_song_button{
+    margin-right: 0.85rem;
+    margin-left: 0.85rem;
+}
+
+/* Barra de volumen */
+.volume_bar_outside{
+    background-color: #4D4D4D;
+    width: 7rem;
+    height: 0.3rem;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+.volume_bar_inside{
+    background-color: white;
+    width: 0%;
+    height: 100%;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.volume_bar_inside:hover{
+    background-color: #00DB50 !important;
+}
