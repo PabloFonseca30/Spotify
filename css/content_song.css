@@ -12,6 +12,16 @@ p{
     color: white;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
                "Helvetica Neue", Arial, sans-serif;
+    user-select: none;  /* Hace que no aparezca el cursor selector de texto */
+}
+
+img{
+    -webkit-user-drag: none;    /* Evitar el arrastre de las imagenes con CSS - en html se pone draggable="false" */
+}
+
+::selection{    /* Evitar la capa azul al seleccionar el elemento */
+    color: inherit;
+    background-color: transparent;
 }
 
 .content{

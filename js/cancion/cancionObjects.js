@@ -2,7 +2,7 @@ import Song from './cancionClass.js';
 import artistas from '../artista/artistaObjects.js';
 
 function getArtistByName(name){
-    return artistas.find(element => element.nombre === name)
+    return artistas.find(element => element.nombre === name);
 }
 
 const canciones = [

@@ -37,6 +37,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
+    user-select: none;
 }
 
 .artist_song_displayed_info{
@@ -47,6 +48,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
+    user-select: none;
 }
 
 .details_song_displayed_info{
@@ -150,6 +152,7 @@
 .current_time, .total_time{
     color: #B3B3B3;
     font-size: 0.75em;
+    user-select: none;
 }
 
 .current_time{

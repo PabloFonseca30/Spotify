@@ -1,4 +1,3 @@
-<!-- >VSCodeCounter: Count lines in workspace -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,6 +9,7 @@
     <link rel="stylesheet" href="css/footer.css">
     <script src="js/footer.js" defer></script>
     <script src="js/displayed.js" defer></script>
+    <script src="js/playlist/playlistFunctions.js" type="module" defer></script>
     <script src="js/cancion/cancionFunctions.js" type="module" defer></script>
     <script src="js/localStorage.js" defer></script>
     <link rel="icon" type="image/png" href="src/images/logo.png" draggable="false">
@@ -17,7 +17,14 @@
 </head>
 <body>
     <div class="content">
-        <div class="playlists category"></div>
+        <div class="playlists category">
+            <div class="searchbar" id="searchbar">
+                <img class="search_song_list" src="src/icons/icons8-search-32.png" alt="search" draggable="false">
+                <input type="text" class="search_input" id="search_input" placeholder="¿Qué quieres reproducir?" autocomplete="off" spellcheck="false">
+                <img class="delete_searched_song_list icon iconWhite" id="delete_searched_song_list" src="src/icons/icons8-x-32.png" alt="delete" draggable="false">
+            </div>
+            <div class="temporal_results" id="temporal_results"></div>
+        </div>
         <div class="displayed category">
             <div class="header_list">
                 <img class="img_header_list" src="src/images/default.png" alt="Playlist image" draggable="false">

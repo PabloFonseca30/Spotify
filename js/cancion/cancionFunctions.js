@@ -51,6 +51,7 @@ canciones.forEach((cancion, index) => {
     const tittle_list_id = "tittle_songs_list" + index;
     tittle_songs_list.setAttribute("id", tittle_list_id);
     tittle_songs_list.textContent = cancion.titulo;
+    tittle_songs_list.style.cursor = "pointer";
 
     // Crear texto y asociar datos del artista
     const artist_songs_list = document.createElement("p");
@@ -59,6 +60,7 @@ canciones.forEach((cancion, index) => {
     const artist_list_id = "artist_songs_list" + index;
     artist_songs_list.setAttribute("id", artist_list_id);
     artist_songs_list.textContent = cancion.artista.nombre;
+    artist_songs_list.style.userSelect = "none";
 
     // Crear contenedor con datos del album
     const cont_album_songs_list = document.createElement("div");
@@ -74,6 +76,7 @@ canciones.forEach((cancion, index) => {
     const album_songs_list_id = "album_songs_list_" + index;
     album_songs_list.setAttribute("id", album_songs_list_id);
     album_songs_list.textContent = cancion.album;
+    album_songs_list.style.userSelect = "none";
 
     // Crear contenedor con datos de la duración
     const cont_duration_songs_list = document.createElement("div");
@@ -89,6 +92,7 @@ canciones.forEach((cancion, index) => {
     const duration_songs_list_id = "duration_songs_list_" + index;
     duration_songs_list.setAttribute("id", duration_songs_list_id);
     duration_songs_list.textContent = cancion.duracion;
+    duration_songs_list.style.userSelect = "none";
 
     //Funcionalidades al pulsar el botón play
     const song_played = document.getElementById("song_audio");
@@ -106,6 +110,13 @@ canciones.forEach((cancion, index) => {
     const desc_about_artist = document.getElementById("desc_about_artist");
     let button_play_song = document.getElementById("play_songs_list" + index);
     button_play_song.addEventListener("click", () => {
+        playSongFromList();
+    });
+    tittle_songs_list.addEventListener("click", () => {
+        playSongFromList();
+    });
+
+    function playSongFromList(){
         song_played.src = cancion.audio;
         progress_bar_inside.style.width = "0%";
         song_played.play();
@@ -130,5 +141,5 @@ canciones.forEach((cancion, index) => {
         } else {
             console.warn('localStorage manager no está disponible');
         }
-    });
+    }
 });
