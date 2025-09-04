@@ -1,9 +1,9 @@
 class Playlist{
-    constructor(nombre, cantidad, horas, canciones){
+    constructor(id ,nombre, imagen, canciones){
+        this.id = id;
         this.nombre = nombre;
-        this.cantidad = cantidad; // Cantidad de canciones
-        this.horas = horas; // Horas totales de la playlist
-        this.canciones = []; // Arreglo con las canciones
+        this.imagen = imagen;
+        this.canciones = []; // Array con las canciones
     }
 }
 

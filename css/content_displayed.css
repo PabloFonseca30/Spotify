@@ -27,6 +27,7 @@
 
 .img_header_list{
     width: 9rem;
+    border-radius: 5px;
     box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.467);
 }
 
@@ -39,7 +40,15 @@
     font-size: 2.1em;
     font-weight: 600;
     padding: 0rem;
-    margin: 0rem
+    margin: 0rem;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;   /* Necesario para que funcione el line-clamp */
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;  /* Número máximo de lineas */
+    line-clamp: 3;  /* Número máximo de lineas - Hay que definir las dos, la webkit y esta */
+    width: 100%;
 }
 
 .info_header_list{

@@ -4,6 +4,11 @@
     background-color: rgb(24, 24, 24);
     flex-shrink: 0;
     padding: 1rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-color: rgb(56, 56, 56) transparent;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
 }
 
 /* Barra de búsqueda */
@@ -15,7 +20,7 @@
     align-items: center;
     background-color: rgb(41, 40, 40);
     border-radius: 25px;
-    border: solid 1px rgb(85, 85, 85);
+    border: solid 1.5px rgb(85, 85, 85);
 }
 
 .searchbar:hover{
@@ -114,4 +119,65 @@
     min-width: 0;
     overflow: hidden;
     margin-right: 1.8rem;
+}
+
+.add_songs_list{
+    cursor: pointer;
+    width: 1.55rem;
+    margin-right: 1.2rem;
+    display: none;
+}
+
+.add_songs_list.hovered{
+    display: block;
+}
+
+/* Biblioteca */
+.biblio_header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.biblioteca_tittle{
+    font-size: 1.1em;
+    padding: 0;
+    margin: 0;
+}
+
+.addButtonCont{
+    background-color: rgb(41, 40, 40);
+    border-radius: 50%;
+    padding: 0.3rem;
+    display: flex;
+    align-items: center;
+}
+
+.addPlaylist{
+    cursor: pointer;
+    width: 1.6rem;
+}
+
+/* Playlists */
+.playlists_displayed{
+    height: fit-content;
+    width: 100%;
+    margin-bottom: 2.5rem;
+    margin-top: 1.6rem;
+}
+
+.cont_playlists{
+    width: auto;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0.9rem;
+}
+
+.img_playlist{
+    width: 3.4rem;
+    border-radius: 4px;
+    margin-right: 0.7rem;
 }
