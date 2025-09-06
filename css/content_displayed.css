@@ -228,7 +228,7 @@
 }
 
 .sup_cont_songs_list:hover{
-    background-color: rgba(255, 255, 255, 0.171);
+    background-color: rgba(255, 255, 255, 0.072);
 }
 
 .cont_songs_list{
@@ -245,6 +245,7 @@
 .img_songs_list{
     height: 2.8rem;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .tittle_songs_list{

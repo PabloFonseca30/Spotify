@@ -118,6 +118,10 @@
     transform: scale(0.95) !important;
 }
 
+.play_pause:focus {
+  outline: none;
+}
+
 /* Iconos funciones */
 .backward_song_button, .forward_song_button{
     height: 2.2rem;

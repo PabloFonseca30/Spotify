@@ -11,7 +11,7 @@
     scroll-behavior: smooth;
 }
 
-/* Barra de búsqueda */
+/* Barra de búsqueda de canciones */
 .searchbar{
     width: auto;
     height: 3rem;
@@ -62,7 +62,7 @@
 /* Canción buscada */
 .temporal_results{
     height: fit-content;
-    width: auto;
+    width: 20rem;
     border-radius: 10px;
     margin-top: 1.2rem;
     padding-top: 0.4rem;
@@ -84,7 +84,7 @@
 }
 
 .ext_cont_songs_searched:hover{
-    background-color: rgba(255, 255, 255, 0.171);
+    background-color: rgba(255, 255, 255, 0.072);
 }
 
 .img_songs_searched{
@@ -99,7 +99,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 100%;
+    width: fit-content;
 }
 
 .artist_songs_searched{
@@ -163,21 +163,231 @@
 .playlists_displayed{
     height: fit-content;
     width: 100%;
-    margin-bottom: 2.5rem;
-    margin-top: 1.6rem;
+    margin-top: 1rem;
 }
 
 .cont_playlists{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
+    border-radius: 7px;
+}
+
+.cont_playlists:hover{
+    background-color: rgba(255, 255, 255, 0.072);
+}
+
+.img_playlist{
+    width: 3.3rem;
+    border-radius: 5px;
+    margin-right: 0.7rem;
+    flex-shrink: 0;
+}
+
+.cont_int_playlists{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 1;
+    min-width: 0;
+    padding-right: 0.45rem;
+}
+
+.tittle_playlist{
+    margin-bottom: 0.3rem !important;
+    font-size: 1.05rem;
+    margin: 0rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.songs_amount_playlist{
+    font-size: 0.8em;
+    margin: 0;
+    color: rgb(162, 162, 162);
+}
+
+/* Modal - Añadir canciones a playlists */
+.modal_AddSong::backdrop{
+    background-color: transparent;
+}
+
+.modal_AddSong:focus {
+    outline: none;    /* Eliminar borde azul automatico al tener el foco */
+}
+
+.modal_AddSong{
+    background-color: rgb(41, 40, 40);
+    border-radius: 10px;
+    box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.467);
+    border: unset;
+    position: absolute;
+    padding: 1.2rem;
+    padding-bottom: 0.85rem;
+    margin: 0;
+    margin-left: 22.4rem;
+    margin-top: 5.85rem;
+    max-width: 16rem;
+    min-width: 12rem;
+    height: fit-content;
+    max-height: 30rem;
+    overflow: visible;  /* Eliminar el scroll general para el contenedor principal */
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;   /* No puede recibir eventos como clicks */
+}
+
+.modal_AddSong[open] {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.add_to_list{
+    margin: 0;
+    color: rgb(162, 162, 162);
+    font-size: 0.85em;
+    flex-shrink: 0;     /* Mantener fijo */
+    margin-bottom: 1rem;
+}
+
+.show_playlists_toAdd{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    /* Meter el scroll para este contenedor */
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-color: rgb(56, 56, 56) transparent;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+    flex: 1;
+    max-height: 20rem;
+}
+
+.cont_playlists_show{
     width: auto;
     height: fit-content;
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 0.9rem;
+    border-radius: 7px;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+    padding-right: 0.5rem;
+    flex-shrink: 0;     /* Mantener fijo */
 }
 
-.img_playlist{
-    width: 3.4rem;
-    border-radius: 4px;
+.cont_playlists_show:hover{
+    background-color: rgba(255, 255, 255, 0.072);
+}
+
+.img_playlist_show{
+    width: 3em;
     margin-right: 0.7rem;
+    border-radius: 5px;
+    flex-shrink: 0;
+}
+
+.cont_int_playlists_show{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 1;
+    min-width: 0;
+}
+
+.tittle_songs_list_show{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.95rem;
+    margin: 0;
+    margin-bottom: 0.3rem !important;
+}
+
+.songs_amount_playlist_show{
+    font-size: 0.8em;
+    margin: 0;
+    color: rgb(162, 162, 162);
+}
+
+.cancel_text_cont{
+    flex-shrink: 0;
+    border-top: solid 0.25px rgba(162, 162, 162, 0.553);
+    margin-top: 0.4rem;
+    padding-top: 0.7rem;
+    margin-bottom: 0.3rem;
+}
+
+.cancel_text{
+    margin: 0;
+    color: rgb(162, 162, 162);
+    font-size: 0.85em;
+    display: flex;
+    justify-content: end;
+    cursor: pointer;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: 0.5rem;
+}
+
+/* Barra de búsqueda de playlists */
+.searchbar_playlist_ext{
+    border-bottom: solid 0.25px rgba(162, 162, 162, 0.553);
+    padding-bottom: 0.7rem;
+    margin-bottom: 0.6rem;
+}
+
+.searchbar_playlist{
+    width: auto;
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.072);
+    border-radius: 5px;
+}
+
+.search_playlist{
+    width: 1.2rem;
+    padding-left: 0.8rem;
+}
+
+.search_input_playlist{
+    border: none;
+    background-color: unset;
+    width: 100%;
+    height: 100%;
+    border-bottom-right-radius: 25px;
+    border-top-right-radius: 25px;
+    outline: none;  /* Elimina el borde que viene integrado con el input */
+    font-size: 0.95rem;
+    color: #B3B3B3;
+    padding: 1rem;
+}
+
+.search_input_playlist::placeholder{
+    color: #B3B3B3;
+    font-size: 0.95rem;
+}
+
+.delete_searched_playlist{
+    width: 1.6rem;
+    padding-right: 0.8rem;
+    opacity: 0;
+}
+
+.delete_searched_playlist.writting{
+    opacity: 1;
 }

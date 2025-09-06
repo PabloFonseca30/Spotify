@@ -11,6 +11,7 @@ canciones.forEach((cancion, index) => {
     sup_cont_songs_list.classList.add("sup_cont_songs_list");
     const sup_cont_songs_list_id = "sup_cont_songs_list" + index;
     sup_cont_songs_list.setAttribute("id", sup_cont_songs_list_id);
+    sup_cont_songs_list.style.cursor = "pointer";
 
     // Crear contenedor con datos principales de la canción
     const cont_songs_list = document.createElement("div");
@@ -113,6 +114,10 @@ canciones.forEach((cancion, index) => {
         playSongFromList();
     });
     tittle_songs_list.addEventListener("click", () => {
+        playSongFromList();
+    });
+
+    sup_cont_songs_list.addEventListener("click", () => {
         playSongFromList();
     });
 
