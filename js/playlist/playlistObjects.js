@@ -11,7 +11,6 @@ playlists[0].canciones.push(canciones[2]);
 playlists[0].canciones.push(canciones[3]);
 playlists[0].canciones.push(canciones[6]);
 
-playlists[1].canciones.push(canciones[0]);
 playlists[1].canciones.push(canciones[1]);
 playlists[1].canciones.push(canciones[4]);
 playlists[1].canciones.push(canciones[5]);

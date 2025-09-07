@@ -23,11 +23,18 @@ delete_typed.addEventListener("click", () => {
     delete_typed.style.cursor = "unset";
     biblioteca.style.visibility = "visible";
     cargarResultados(""); // Vacía los resultados al borrar
+
+    if(ceroResultsSearch3.classList.contains("noResults")){
+        ceroResultsSearch3.classList.remove("noResults");
+    }
+    if(ceroResultsSearch4.classList.contains("noResults")){
+        ceroResultsSearch4.classList.remove("noResults");
+    }
 });
 
 // Quitar color searchbar cuando no tiene el foco
 search_input.addEventListener("blur", () => {
-    // QUE SE QUITE EL FOCO SOLO SI NO HAY NINGUN INPUT O SI NO HA ENCONTRADO RESULTADOS
+    // Que se quite el foco solo si no hay ningún input o si no ha encontrado resultados
     if(search_input.value == "" || cancionesEncontradas.length == 0) {
         temporal_results.style.visibility = "hidden";
         temporal_results.style.height = 0;
@@ -51,14 +58,29 @@ search_input.addEventListener("input", () => {
 });
 
 let cancionesEncontradas;
+let playlistsEncontradas;
 
 function cargarResultados(texto_buscado) {
     // Vacía el contenedor antes de mostrar resultados nuevos
     temporal_results.innerHTML = "";
 
+    if(ceroResultsSearch.classList.contains("noResults")){
+        ceroResultsSearch.classList.remove("noResults");
+    }
+    if(ceroResultsSearch2.classList.contains("noResults")){
+        ceroResultsSearch2.classList.remove("noResults");
+    }
+
+    if(ceroResultsSearch3.classList.contains("noResults")){
+        ceroResultsSearch3.classList.remove("noResults");
+    }
+    if(ceroResultsSearch4.classList.contains("noResults")){
+        ceroResultsSearch4.classList.remove("noResults");
+    }
+
     if (texto_buscado.trim() !== "") {  // Trim elimina espacios en blanco
         // Busca canciones que incluyan el texto (no solo coincidencia exacta)
-        cancionesEncontradas = canciones.filter(element => element.titulo.toLowerCase().includes(texto_buscado.toLowerCase()));   // Includes comprueba que contenga el texto introducido, no solo que sea idéntico
+        cancionesEncontradas = canciones.filter(element => element.titulo.replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u').replace(/[\-.,'()]/g, ' ').toLowerCase().includes(texto_buscado.replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u').replace(/[\-.,'()]/g, ' ').toLowerCase()));   // Includes comprueba que contenga el texto introducido, no solo que sea idéntico
 
         if (cancionesEncontradas.length > 0) {
             temporal_results.style.visibility = "visible";
@@ -149,105 +171,26 @@ function cargarResultados(texto_buscado) {
 
                 // Añadir canción al pulsar el botón - usando modal
                 const modal_AddSong = document.getElementById("modal_AddSong");
-                const show_playlists_toAdd = document.getElementById("show_playlists_toAdd");
+                const guardado_en_cont = document.getElementById("guardado_en_cont");
+                const mas_relevante_cont = document.getElementById("mas_relevante_cont");
 
                 add_songs_list.addEventListener("click", () => {
                     ext_cont_songs_searched.style.backgroundColor = "rgba(255, 255, 255, 0.072)";
                     modal_AddSong.showModal();
 
-                    // Eliminar posible contenido antes de mostrar las playlists
-                    while(show_playlists_toAdd.firstChild){
-                        show_playlists_toAdd.removeChild(show_playlists_toAdd.firstChild);
-                    }
+                    // Mostrar playlists
+                    createInitialPlaylists(cancionInPlaylist);
 
-                    // Mostrar las playlists
-                    playlists.forEach(playlist => {
-                        // Crear contenedor exterior
-                        const cont_playlists_show = document.createElement("div");
-                        show_playlists_toAdd.appendChild(cont_playlists_show);
-                        cont_playlists_show.classList.add("cont_playlists_show");
-                        cont_playlists_show.style.cursor = "pointer";
+                    // Playlist Searchbar
+                    const search_input_playlist = document.getElementById("search_input_playlist");
 
-                        // Crear imagen y asociar datos
-                        const img_playlist_show = document.createElement("img");
-                        cont_playlists_show.appendChild(img_playlist_show);
-                        img_playlist_show.classList.add("img_playlist_show");
-                        img_playlist_show.setAttribute("alt", "Imagen de la playlist");
-                        img_playlist_show.src = playlist.imagen;
-                        img_playlist_show.style.cursor = "pointer";
+                    search_input_playlist.addEventListener("input", () => {
+                        // Cargar resultados
+                        cargarResultadosSearchbarPlaylist(search_input_playlist.value, cancionInPlaylist);
+                        delete_searched_playlist.classList.add("writting");
 
-                        // Crear contenedor interior
-                        const cont_int_playlists_show = document.createElement("div");
-                        cont_playlists_show.appendChild(cont_int_playlists_show);
-                        cont_int_playlists_show.classList.add("cont_int_playlists_show");
-                        cont_int_playlists_show.style.cursor = "pointer";
-
-                        // Crear texto y asociar los datos del título
-                        const tittle_songs_list_show = document.createElement("p");
-                        cont_int_playlists_show.appendChild(tittle_songs_list_show);
-                        tittle_songs_list_show.classList.add("tittle_songs_list_show");
-                        tittle_songs_list_show.textContent = playlist.nombre;
-                        tittle_songs_list_show.style.cursor = "pointer";
-
-                        // Calcular canciones totales
-                        let totalCancionesModal;
-
-                        if(playlist.canciones.length == 1){
-                            totalCancionesModal = playlist.canciones.length + " canción";
-                        }else{
-                            totalCancionesModal = playlist.canciones.length + " canciones";
-                        }
-
-                        // Crear texto y asociar los datos de la cantidad de canciones
-                        const songs_amount_playlist_show = document.createElement("p");
-                        cont_int_playlists_show.appendChild(songs_amount_playlist_show);
-                        songs_amount_playlist_show.classList.add("songs_amount_playlist");
-                        songs_amount_playlist_show.textContent = totalCancionesModal;
-                        songs_amount_playlist_show.style.cursor = "pointer";
-
-                        // Añadir canción
-                        cont_playlists_show.addEventListener("click", () => {
-                            addsongtoList();
-                            // Volver a cargar todas las playlist de la biblioteca para actualizar el número de canciones de cada una
-                    
-                            // Primero borrar las existentes
-                            while(playlists_displayed.firstChild){
-                                playlists_displayed.removeChild(playlists_displayed.firstChild);
-                            }
-
-                            playlists.forEach(playlist => {
-                                crearPlaylistYFuncionalidades(playlist);
-                            });
-                        });
-
-                        function addsongtoList(){
-                            // Buscar la canción
-                            const songPosition = cancionInPlaylist.id - 1000 - 1;
-                            const playlistPosition = playlist.id - 8000 - 1;
-
-                            console.log('Agregando canción a playlist:', {
-                                playlistId: playlist.id,
-                                actualPlaylistDisplayed: actualPlaylistDisplayed,
-                                songTitle: cancionInPlaylist.titulo,
-                                playlistName: playlist.nombre
-                            });
-
-                            playlists[playlistPosition].canciones.push(canciones[songPosition]);
-                            if(actualPlaylistDisplayed != null && actualPlaylistDisplayed == playlist.id){
-                                console.log('Actualizando playlist mostrada');
-                                updateDisplayedPlaylist(playlist);
-                            }
-
-                            modal_AddSong.close();
-
-                            temporal_results.style.visibility = "hidden";
-                            temporal_results.style.height = 0;
-                            search_input.value = "";
-                            delete_typed.classList.remove("writting");
-                            searchbar.style.border = "solid 1.5px rgb(85, 85, 85)";
-                            delete_typed.style.cursor = "unset";
-                            biblioteca.style.visibility = "visible";
-                            cargarResultados("");
+                        if(search_input_playlist.value == "" && delete_searched_playlist.classList.contains("writting")){
+                            delete_searched_playlist.classList.remove("writting");
                         }
                     });
                 });
@@ -262,6 +205,7 @@ function cargarResultados(texto_buscado) {
                     delete_typed.style.cursor = "unset";
                     biblioteca.style.visibility = "visible";
                     cargarResultados("");
+                    search_input_playlist.value = "";
                 });
 
                 // Cerrar modal con el botón cancelar
@@ -269,16 +213,286 @@ function cargarResultados(texto_buscado) {
 
                 cancel_text.addEventListener("click", () => {
                     modal_AddSong.close();
-                })
+                });
             });
         } else {
             temporal_results.style.visibility = "hidden";
             temporal_results.style.height = 0;
+            ceroResultsSearch3.classList.add("noResults");
+            ceroResultsSearch3.textContent = "No se ha encontrado ningún";
+            ceroResultsSearch4.classList.add("noResults");
+            ceroResultsSearch4.textContent = "resultado para \"" + search_input.value + "\"";
         }
     } else {
         temporal_results.style.visibility = "hidden";
         temporal_results.style.height = 0;
     }
+}
+
+const ceroResultsSearch = document.getElementById("ceroResultsSearch");
+const ceroResultsSearch2 = document.getElementById("ceroResultsSearch2");
+const ceroResultsSearch3 = document.getElementById("ceroResultsSearch3");
+const ceroResultsSearch4 = document.getElementById("ceroResultsSearch4");
+const delete_searched_playlist = document.getElementById("delete_searched_playlist");
+
+// Función para cargar resultados de la búsqueda de playlists en el modal
+function cargarResultadosSearchbarPlaylist(textoBuscado, cancionInPlaylist) {
+    guardado_en_cont.innerHTML = "";
+    mas_relevante_cont.innerHTML = "";
+
+    if(ceroResultsSearch.classList.contains("noResults")){
+        ceroResultsSearch.classList.remove("noResults");
+    }
+    if(ceroResultsSearch2.classList.contains("noResults")){
+        ceroResultsSearch2.classList.remove("noResults");
+    }
+
+    if(ceroResultsSearch3.classList.contains("noResults")){
+        ceroResultsSearch3.classList.remove("noResults");
+    }
+    if(ceroResultsSearch4.classList.contains("noResults")){
+        ceroResultsSearch4.classList.remove("noResults");
+    }
+    
+    if(textoBuscado.trim() !== ""){
+        playlistsEncontradas = playlists.filter(element => element.nombre.replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u').replace(/[\-.,'()]/g, ' ').toLowerCase().includes(textoBuscado.replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u').replace(/[\-.,'()]/g, ' ').toLowerCase()));
+        // La letra g en .replace(/[\-.,'()]/g, ' ') es una bandera que hace que el replace sustituya todas las ocurrencias especificadas previamente por ' '
+        
+        if(playlistsEncontradas.length > 0){
+            // Filtrar resultados según su array (si la canción ya ha sido incluida en ella o no)
+
+            let songInPlaylistSearched = [];
+            let songNotInPlaylistSearched = [];
+
+            playlistsEncontradas.forEach(playlist => {
+                let isHere = false;
+                songInPlaylist.forEach(playlistOnArray => {
+                    if(playlistOnArray.id == playlist.id){
+                        isHere = true
+                    }
+                });
+                
+                //Si hay coincidencia insertar en el array
+                if(isHere == true){
+                    songInPlaylistSearched.push(playlist);
+                } else{
+                    songNotInPlaylistSearched.push(playlist);
+                }
+            });
+
+            // Cargar resultados
+            isChecked2 = true;
+            mostrarPlaylistsModal(guardado_en_cont, checked, cancionInPlaylist, songInPlaylistSearched, isChecked2);
+            if(songInPlaylistSearched.length == 0){
+                guardado_en_text.classList.add("notDisplayed");
+            }else if(songInPlaylistSearched.length != 0 && guardado_en_text.classList.contains("notDisplayed")){
+                guardado_en_text.classList.remove("notDisplayed");
+            }
+
+            isChecked2 = false;
+            mostrarPlaylistsModal(mas_relevante_cont, unchecked, cancionInPlaylist, songNotInPlaylistSearched, isChecked2);
+            if(songNotInPlaylistSearched.length == 0){
+                mas_relevante_text.classList.add("notDisplayed");
+            }else if(songNotInPlaylistSearched.length != 0 && mas_relevante_text.classList.contains("notDisplayed")){
+                mas_relevante_text.classList.remove("notDisplayed");
+            }
+
+            delete_searched_playlist.addEventListener("click", () => {
+                search_input_playlist.value = "";
+                createInitialPlaylists(cancionInPlaylist);
+
+                if(ceroResultsSearch.classList.contains("noResults")){
+                    ceroResultsSearch.classList.remove("noResults");
+                }
+                if(ceroResultsSearch2.classList.contains("noResults")){
+                    ceroResultsSearch2.classList.remove("noResults");
+                }
+
+                delete_searched_playlist.classList.remove("writting");
+            });
+
+        } else {
+            // Si no encuentra resultados poner un texto
+            guardado_en_text.classList.add("notDisplayed");
+            mas_relevante_text.classList.add("notDisplayed");
+            ceroResultsSearch.classList.add("noResults");
+            ceroResultsSearch.textContent = "No se ha encontrado ningún";
+            ceroResultsSearch2.classList.add("noResults");
+            ceroResultsSearch2.textContent = "resultado para \"" + search_input_playlist.value + "\"";
+        }
+    } else {
+        // Mostrar las playlists iniciales
+        createInitialPlaylists(cancionInPlaylist);
+    }
+}
+
+function createInitialPlaylists(cancionInPlaylist) {
+    // Crear ambos arrays: cancion en la lista y cancion fuera de la lista
+    songInPlaylist = [];
+    songNotInPlaylist = [];
+
+    // Buscar la canción
+    playlists.forEach(playlist => {
+        let isContained = false;
+
+        playlist.canciones.forEach(cancion => {
+            
+            if(cancionInPlaylist.id == cancion.id){
+                isContained = true;
+            }
+        });
+
+        if(isContained){
+            songInPlaylist.push(playlist);
+        } else{
+            songNotInPlaylist.push(playlist);
+        }
+    });
+
+    const guardado_en_text = document.getElementById("guardado_en_text");
+    const mas_relevante_text = document.getElementById("mas_relevante_text");
+
+    // Mostrar las playlists que contienen la canción en el modal
+    isChecked = true;
+    mostrarPlaylistsModal(guardado_en_cont, checked, cancionInPlaylist, songInPlaylist, isChecked);
+    if(songInPlaylist.length == 0){
+        guardado_en_text.classList.add("notDisplayed");
+    }else if(songInPlaylist.length != 0 && guardado_en_text.classList.contains("notDisplayed")){
+        guardado_en_text.classList.remove("notDisplayed");
+    }
+
+    //Mostrar las playlists que NO contienen la canción en el modal
+    isChecked = false;
+    mostrarPlaylistsModal(mas_relevante_cont, unchecked, cancionInPlaylist, songNotInPlaylist, isChecked);
+    if(songNotInPlaylist.length == 0){
+        mas_relevante_text.classList.add("notDisplayed");
+    }else if(songNotInPlaylist.length != 0 && mas_relevante_text.classList.contains("notDisplayed")){
+        mas_relevante_text.classList.remove("notDisplayed");
+    }
+}
+
+// Función para mostrar las playlists en el modal
+// Parámetros:
+// - Contenedor en el que se van a mostrar
+// - Src del icono a mostrar ("checked" o "unchecked")
+// - Variable del forEach "cancionInPlaylist"
+// - Array con las playlists a mostrar según contengan o no la canción
+// - Valor booleano para distinguir entre las playlists que contienen la canción y las que no
+
+const unchecked = "src/icons/icons8-unchecked-32.png";
+const checked = "src/icons/icons8-checked-32.png";
+
+let songInPlaylist = [];
+let songNotInPlaylist = [];
+
+let isChecked;
+let isChecked2;
+
+function mostrarPlaylistsModal(containerToShow, srcChecked, cancionInPlaylist, isInPlaylist, isChecked){
+    // Eliminar posible contenido antes de mostrar las playlists
+    while(containerToShow.firstChild){
+        containerToShow.removeChild(containerToShow.firstChild);
+    }
+
+    // Mostrar las playlists
+    isInPlaylist.forEach((playlist, index) => {
+        // Crear contenedor exterior
+        const cont_playlists_show = document.createElement("div");
+        containerToShow.appendChild(cont_playlists_show);
+        cont_playlists_show.classList.add("cont_playlists_show");
+        if (isChecked == false){
+            cont_playlists_show.style.cursor = "pointer";
+        }
+    
+        // Crear imagen y asociar datos
+        const img_playlist_show = document.createElement("img");
+        cont_playlists_show.appendChild(img_playlist_show);
+        img_playlist_show.classList.add("img_playlist_show");
+        img_playlist_show.setAttribute("alt", "Imagen de la playlist");
+        img_playlist_show.src = playlist.imagen;
+
+        // Crear contenedor interior
+        const cont_int_playlists_show = document.createElement("div");
+        cont_playlists_show.appendChild(cont_int_playlists_show);
+        cont_int_playlists_show.classList.add("cont_int_playlists_show");
+
+        // Crear texto y asociar los datos del título
+        const tittle_songs_list_show = document.createElement("p");
+        cont_int_playlists_show.appendChild(tittle_songs_list_show);
+        tittle_songs_list_show.classList.add("tittle_songs_list_show");
+        tittle_songs_list_show.textContent = playlist.nombre;
+
+        // Calcular canciones totales
+        let totalCancionesModal;
+
+        if(playlist.canciones.length == 1){
+            totalCancionesModal = playlist.canciones.length + " canción";
+        }else{
+            totalCancionesModal = playlist.canciones.length + " canciones";
+        }
+
+        // Crear texto y asociar los datos de la cantidad de canciones
+        const songs_amount_playlist_show = document.createElement("p");
+        cont_int_playlists_show.appendChild(songs_amount_playlist_show);
+        songs_amount_playlist_show.classList.add("songs_amount_playlist");
+        songs_amount_playlist_show.textContent = totalCancionesModal;
+
+        // Crear botón "checked"
+        const checked_playlist_show = document.createElement("img");
+        cont_playlists_show.appendChild(checked_playlist_show);
+        checked_playlist_show.classList.add("checked_playlist_show");
+        const checked_playlist_id = "checked_playlist_show" + index;
+        checked_playlist_show.setAttribute("id", checked_playlist_id);
+        checked_playlist_show.setAttribute("alt", "Botón de reproducción");
+        checked_playlist_show.src = srcChecked;
+
+        // Añadir canción
+        cont_playlists_show.addEventListener("click", () => {
+            // SOLO si la canción no está en la playlist
+            if(isChecked == false){
+                addsongtoList();
+                // Volver a cargar todas las playlist de la biblioteca para actualizar el número de canciones de cada una
+
+                // Primero borrar las existentes
+                while(playlists_displayed.firstChild){
+                    playlists_displayed.removeChild(playlists_displayed.firstChild);
+                }
+
+                playlists.forEach(playlist => {
+                    crearPlaylistYFuncionalidades(playlist);
+                });
+            }
+        });
+
+        function addsongtoList(){
+            // Buscar la canción
+            const songPosition = cancionInPlaylist.id - 1000 - 1;
+            const playlistPosition = playlist.id - 8000 - 1;
+
+            // console.log('Agregando canción a playlist:', {
+            //     playlistId: playlist.id,
+            //     actualPlaylistDisplayed: actualPlaylistDisplayed,
+            //     songTitle: cancionInPlaylist.titulo,
+            //     playlistName: playlist.nombre
+            // });
+
+            playlists[playlistPosition].canciones.push(canciones[songPosition]);
+            if(actualPlaylistDisplayed != null && actualPlaylistDisplayed == playlist.id){
+                updateDisplayedPlaylist(playlist);
+            }
+
+            modal_AddSong.close();
+
+            temporal_results.style.visibility = "hidden";
+            temporal_results.style.height = 0;
+            search_input.value = "";
+            delete_typed.classList.remove("writting");
+            searchbar.style.border = "solid 1.5px rgb(85, 85, 85)";
+            delete_typed.style.cursor = "unset";
+            biblioteca.style.visibility = "visible";
+            cargarResultados("");
+        }
+    });
 }
 
 const song_played = document.getElementById("song_audio");
