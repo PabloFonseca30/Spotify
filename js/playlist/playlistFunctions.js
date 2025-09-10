@@ -57,6 +57,20 @@ search_input.addEventListener("input", () => {
     }
 });
 
+// Cerrar el modal si se clica fuera de él
+modal_AddSong.addEventListener("click", (e) => {
+    // Obtener las dimensiones del contenido del modal
+    const rect = modal_AddSong.getBoundingClientRect(); // Devuelve un objeto con posiciones (left, right, top, bottom)
+    const clickX = e.clientX;   // Posición del click en el eje X
+    const clickY = e.clientY;   // Posición del click en el eje Y
+    
+    // Si el click está fuera del contenido visible del modal
+    if (clickX < rect.left || clickX > rect.right || 
+        clickY < rect.top || clickY > rect.bottom) {
+        modal_AddSong.close();
+    }
+});
+
 let cancionesEncontradas;
 let playlistsEncontradas;
 
@@ -124,7 +138,7 @@ function cargarResultados(texto_buscado) {
                 add_songs_list.classList.add("add_songs_list");
                 add_songs_list.classList.add("icon");
                 add_songs_list.setAttribute("alt", "Botón de añadir canciones");
-                add_songs_list.src = "src/icons/icons8-add-32.png";
+                add_songs_list.src = "src/icons/icons8-add-32.webp";
                 
                 // Reproducir canción encontrada
                 tittle_songs_searched.addEventListener("click", () => {
@@ -766,7 +780,7 @@ const addPlaylist = document.getElementById("addPlaylist");
 
 addPlaylist.addEventListener("click", () => {
     const idNewPlaylist =  8000 + playlists.length + 1;
-    playlists.push(new Playlist(idNewPlaylist, "Nueva lista", "src/images/default_playlist.png"));
+    playlists.push(new Playlist(idNewPlaylist, "Nueva lista", "src/images/default_playlist.webp"));
     crearPlaylistYFuncionalidades(playlists[playlists.length - 1]);
 });
 

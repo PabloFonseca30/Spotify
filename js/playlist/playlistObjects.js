@@ -2,9 +2,9 @@ import Playlist from "./playlistClass.js";
 import canciones from "../cancion/cancionObjects.js";
 
 const playlists = [
-    new Playlist(8001, "Playlist 1", "src/images/default_playlist.png"),
-    new Playlist(8002, "Playlist 2", "src/images/default_playlist.png"),
-    new Playlist(8003, "Playlist con un título demasiado largo por lo que se sale siempre de la pantalla", "src/images/default_playlist.png"),
+    new Playlist(8001, "Playlist 1", "src/images/default_playlist.webp"),
+    new Playlist(8002, "Playlist 2", "src/images/default_playlist.webp"),
+    new Playlist(8003, "Playlist con un título demasiado largo por lo que se sale siempre de la pantalla", "src/images/default_playlist.webp"),
 ];
 
 playlists[0].canciones.push(canciones[2]);

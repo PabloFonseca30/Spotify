@@ -118,7 +118,7 @@ input::selection {  /* Selección para inputs */
       rgba(0, 0, 0, 0.4),
       rgba(0, 0, 0, 0)
     ),
-    url('../src/images/default.png') center/cover;
+    url('../src/images/default.webp') center/cover;
 }
 
 .text_about_artist, .artist_about_artist{

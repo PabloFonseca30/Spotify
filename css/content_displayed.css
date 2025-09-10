@@ -144,8 +144,25 @@
 }
 
 /* Botón search y order */
-.search_song_button_list, .order_list_button{
+.customOrder{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+}
+
+.customOrder:hover{
+    transform: scale(1.01) !important;
+}
+
+.options_list_b .customOrder:active{
+    transform: scale(0.99) !important;
+}
+
+.search_song_button_list, .order_list_button{
     width: 1.25rem;
 }
 

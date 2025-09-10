@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if(volume_song_button.style.filter == green_filter){
             currentSounBarWidth = volume_bar_inside.style.width;
             song_audio.muted = false;
-            volume_song_button.src = "src/icons/icons8-volume-32.png";
+            volume_song_button.src = "src/icons/icons8-volume-32.webp";
             volume_song_button.style.filter = "unset";
             cont5++;
         }
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
             song_audio.muted = true;
             volume_bar_inside.style.width = "0%";
         }else{
-            volume_song_button.src = "src/icons/icons8-volume-32.png";
+            volume_song_button.src = "src/icons/icons8-volume-32.webp";
             song_audio.muted = false;
             volume_bar_inside.style.width = currentSounBarWidth;
         } 

@@ -12,7 +12,7 @@
     <script src="js/playlist/playlistFunctions.js" type="module" defer></script>
     <script src="js/cancion/cancionFunctions.js" type="module" defer></script>
     <script src="js/localStorage.js" type="module" defer></script>
-    <link rel="icon" type="image/png" href="src/images/logo.png" draggable="false">
+    <link rel="icon" type="image/png" href="src/images/logo.webp" draggable="false">
     <title>Spotify</title>
 </head>
 <body>
@@ -21,7 +21,7 @@
             <div class="searchbar" id="searchbar">
                 <img class="search_song_list" src="src/icons/icons8-search-32.png" alt="search" draggable="false">
                 <input type="text" class="search_input" id="search_input" placeholder="¿Qué quieres reproducir?" autocomplete="off" spellcheck="false">
-                <img class="delete_searched_song_list icon iconWhite" id="delete_searched_song_list" src="src/icons/icons8-x-32.png" alt="delete" draggable="false">
+                <img class="delete_searched_song_list icon iconWhite" id="delete_searched_song_list" src="src/icons/icons8-x-32.webp" alt="delete" draggable="false">
             </div>
             <dialog class="modal_AddSong" id="modal_AddSong">    <!-- Ventana modal - Pop Up -->
                 <p class="add_to_list">Añadir a la lista</p>
@@ -29,7 +29,7 @@
                     <div class="searchbar_playlist" id="searchbar_playlist">
                         <img class="search_playlist" src="src/icons/icons8-search-32.png" alt="search" draggable="false">
                         <input type="text" class="search_input_playlist" id="search_input_playlist" placeholder="Busca una playlist" autocomplete="off" spellcheck="false">
-                        <img class="delete_searched_playlist icon iconWhite" id="delete_searched_playlist" src="src/icons/icons8-x-32.png" alt="delete" draggable="false">
+                        <img class="delete_searched_playlist icon iconWhite" id="delete_searched_playlist" src="src/icons/icons8-x-32.webp" alt="delete" draggable="false">
                     </div>
                 </div>
                 <div class="show_playlists_toAdd">
@@ -50,7 +50,7 @@
                 <div class="biblio_header">
                     <p class="biblioteca_tittle">Tu biblioteca</p>
                     <div class="addButtonCont">
-                        <img class="addPlaylist icon iconWhite" id="addPlaylist" src="src/icons/icons8-add2-32.png" alt="Añadir playlist">
+                        <img class="addPlaylist icon iconWhite" id="addPlaylist" src="src/icons/icons8-add2-32.webp" alt="Añadir playlist">
                     </div>
                 </div>
                 <div class="playlists_displayed" id="playlists_displayed"></div>
@@ -58,7 +58,7 @@
         </div>
         <div class="displayed category">
             <div class="header_list">
-                <img class="img_header_list" id="img_header_list" src="src/images/default.png" alt="Playlist image" draggable="false">
+                <img class="img_header_list" id="img_header_list" src="src/images/default.webp" alt="Playlist image" draggable="false">
                 <div class="details_header_list">
                     <p class="tittle_header_list" id="tittle_header_list">Selecciona una playlist</p>
                     <p class="info_header_list" id="info_header_list">Selecciona una playlist</p> <!-- Numero de canciones y tiempo total-->
@@ -74,8 +74,10 @@
                     </div>
                     <div class="options_list_b">
                         <img class="search_song_button_list icon iconWhite" src="src/icons/icons8-search-32.png" alt="search" draggable="false">
-                        <p class="order_list">Orden personalizado</p>
-                        <img class="order_list_button icon iconWhite" src="src/icons/icons8-queque-32.png" alt="order" draggable="false">
+                        <div class="customOrder icon iconWhite" id="customOrder">
+                            <p class="order_list">Orden personalizado</p>
+                            <img class="order_list_button" src="src/icons/icons8-queque-32.png" alt="order" draggable="false">
+                        </div>
                     </div>
                 </div>
                 <div class="table_songs_list">
@@ -96,7 +98,7 @@
         </div>
         <div class="song category">
             <p class="playlist_song_displayed">Reproduce una canción</p>
-            <img class="img_song_displayed" id="img_song_displayed" src="src/images/default.png" alt="Song Playing" draggable="false">
+            <img class="img_song_displayed" id="img_song_displayed" src="src/images/default.webp" alt="Song Playing" draggable="false">
             <div class="container_tittle_artist_song">
                 <p class="tittle_song_displayed" id="tittle_song_displayed">Reproduce una canción</p>
                 <p class="artist_song_displayed" id="artist_song_displayed">Reproduce una canción</p>
@@ -112,7 +114,7 @@
             <div class="next_on_queque">
                 <p class="text_next_on_queque">A continuación en la cola</p>
                 <div class="song_next_on_queque">
-                    <img class="img_next_on_queque" src="src/images/default.png" alt="First Song On Queque" draggable="false">
+                    <img class="img_next_on_queque" src="src/images/default.webp" alt="First Song On Queque" draggable="false">
                     <div class="details_next_on_queque">
                         <p class="tittle_next_on_queque">Reproduce una canción</p>
                         <p class="artist_next_on_queque">Reproduce una canción</p>
@@ -123,7 +125,7 @@
     </div>
     <div class="footer">
         <div class="song_displayed_info">
-            <img class="img_song_displayed_info" id="img_song_displayed_info" src="src/images/default.png" alt="First Song On Queque" draggable="false">
+            <img class="img_song_displayed_info" id="img_song_displayed_info" src="src/images/default.webp" alt="First Song On Queque" draggable="false">
             <div class="details_song_displayed_info">
                 <p class="tittle_song_displayed_info" id="tittle_song_displayed_info">Reproduce una canción</p>
                 <p class="artist_song_displayed_info" id="artist_song_displayed_info">Reproduce una canción</p>
@@ -133,7 +135,7 @@
             <audio id="song_audio" src=""></audio>
             <div class="container_buttons">
                 <img class="shuffle_song_button icon iconGreen" id="shuffle_song_button" src="src/icons/icons8-shuffle-32.png" alt="shuffle" draggable="false">
-                <img class="backward_song_button icon iconWhite" src="src/icons/icons8-backward-32.png" alt="backward" draggable="false">
+                <img class="backward_song_button icon iconWhite" src="src/icons/icons8-backward-32.webp" alt="backward" draggable="false">
                 <button class="play_pause" id="player_button" aria-label="Play/Pause Button"></button>
                 <img class="forward_song_button icon iconWhite" src="src/icons/icons8-forward-32.png" alt="forward" draggable="false">
                 <img class="repeat_song_button icon iconGreen" id="repeat_song_button" src="src/icons/icons8-repeat-32.png" alt="repeat" draggable="false">
@@ -150,7 +152,7 @@
         <div class="player_settings">
             <img class="microphone_song_button icon iconGreen" id="microphone_song_button" src="src/icons/icons8-microphone-32.png" alt="microphone" draggable="false">
             <img class="queque_song_button icon iconGreen" id="queque_song_button" src="src/icons/icons8-queque-32.png" alt="queque" draggable="false">
-            <img class="volume_song_button icon iconGreen" id="volume_song_button" src="src/icons/icons8-volume-32.png" alt="volume" draggable="false">
+            <img class="volume_song_button icon iconGreen" id="volume_song_button" src="src/icons/icons8-volume-32.webp" alt="volume" draggable="false">
             <div class="volume_bar_outside" id="volume_bar_outside">
                 <div class="volume_bar_inside" id="volume_bar_inside"></div>
             </div>
