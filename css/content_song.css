@@ -65,6 +65,8 @@ input::selection {  /* Selección para inputs */
     scrollbar-width: thin;
     scroll-behavior: smooth;
     padding: 1rem;
+    position: relative;
+    scrollbar-gutter: stable;   /* Reserva el espacio para la barra de scroll */
 }
 
 .img_song_displayed{
@@ -77,6 +79,11 @@ input::selection {  /* Selección para inputs */
 .playlist_song_displayed{
     font-size: 1.05em;
     margin-top: 0.3rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .container_tittle_artist_song{
@@ -206,4 +213,148 @@ input::selection {  /* Selección para inputs */
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
+}
+
+/* Contenedor para la cola */
+.quequeContainer{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 25rem;
+    height: 100%;
+    background-color: rgb(24, 24, 24);
+    z-index: 2;
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+    display: none;
+    padding: 1rem;
+    padding-right: 0.5rem;
+}
+
+.quequeContainer.active {
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.3s ease-in-out forwards;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-100%);
+    }
+}
+
+.quequeContainer.close {
+    display: flex;
+    flex-direction: column;
+    animation: slideDown 0.3s ease-in-out forwards;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.quequed.queque{
+    display: none;
+}
+
+.quequed{
+    display: block;
+}
+
+.quequeHeader{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 2.5rem;
+}
+
+.QuequeTitle{
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.RecentTitle{
+    margin: 0;
+    margin-left: 2rem;
+    font-size: 0.9em;
+}
+
+.close_queque_icon{
+    width: 0.9rem;
+    margin-left: auto;
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+.queque_content_cont{
+    width: 100%;
+    height: fit-content;
+    margin-top: 1.5rem;
+}
+
+/* Elementos de la cola */
+.cont_songs_list_queque{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    padding: 0rem;
+    margin: 0rem;
+    align-items: center;
+    flex-shrink: 0;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+}
+
+.img_songs_list_queque{
+    height: 2.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.tittle_songs_list_queque{
+    margin-bottom: 0.3rem !important;
+    font-size: 0.9rem;
+    margin: 0rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.artist_songs_list_queque{
+    font-size: 0.8rem;
+    margin: 0;
+    color: rgb(162, 162, 162);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.details_songs_list_queque{
+    margin-left: 1rem;
+    height: fit-content;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    margin-right: 1.8rem;
+}
+
+.actualSong{
+    margin-top: 1rem;
+}
+
+.nextSongs{
+    margin-top: 2rem;
 }

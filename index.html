@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="css/content_displayed.css">
     <link rel="stylesheet" href="css/content_song.css">
     <link rel="stylesheet" href="css/footer.css">
-    <script src="js/footer.js" defer></script>
-    <script src="js/displayed.js" defer></script>
+    <script src="js/footer.js" type="module" defer></script>
     <script src="js/playlist/playlistFunctions.js" type="module" defer></script>
     <script src="js/cancion/cancionFunctions.js" type="module" defer></script>
     <script src="js/localStorage.js" type="module" defer></script>
@@ -68,7 +67,9 @@
             <div class="options_list">
                 <div class="options_list_container">
                     <div class="options_list_a">
-                        <button class="play_pause_list" id="play_pause_list" aria-label="Play/Pause Button"></button>
+                        <div class="play_pause_list_cont" id="play_pause_list_cont">
+                            <button class="play_pause_list" id="play_pause_list" aria-label="Play/Pause Button"></button>
+                        </div>
                         <img class="shuffle_song_button_list icon iconGreen" id="shuffle_song_button_list" src="src/icons/icons8-shuffle-32.png" alt="shuffle" draggable="false">
                         <img class="settings_song_button_list icon iconWhite" src="src/icons/icons8-settings-32.png" alt="settings" draggable="false">
                     </div>
@@ -96,29 +97,44 @@
             <!-- ================================= -->
             <div class="songs_list" id="songs_list"></div>
         </div>
-        <div class="song category">
-            <p class="playlist_song_displayed">Reproduce una canción</p>
-            <img class="img_song_displayed" id="img_song_displayed" src="src/images/default.webp" alt="Song Playing" draggable="false">
-            <div class="container_tittle_artist_song">
+        <div class="song category" id="song_mainPpal_container">
+            <div class="playlist_song_displayed_cont">
+                <p class="playlist_song_displayed quequed" id="playlist_song_displayed">Reproduce una canción</p>
+            </div>
+            <img class="img_song_displayed quequed" id="img_song_displayed" src="src/images/default.webp" alt="Song Playing" draggable="false">
+            <div class="container_tittle_artist_song quequed">
                 <p class="tittle_song_displayed" id="tittle_song_displayed">Reproduce una canción</p>
                 <p class="artist_song_displayed" id="artist_song_displayed">Reproduce una canción</p>
             </div>
-            <div class="about_artist_song_displayed" id="about_artist_song_displayed">
+            <div class="about_artist_song_displayed quequed" id="about_artist_song_displayed">
                 <p class="text_about_artist">Información sobre el artisa</p>
             </div>
-            <div class="info_about_artist_song_displayed">
+            <div class="info_about_artist_song_displayed quequed">
                 <p class="artist_about_artist" id="artist_about_artist">Reproduce una canción</p>
                 <p class="oyentes_about_artist" id="oyentes_about_artist">Número de oyentes mensuales</p>
                 <p class="desc_about_artist" id="desc_about_artist">Breve descripción sobre el artisa Lorem ipsum dolor, sit amet consectetur eacsi puase adipisicing elit. Tenetur, necessitatibus voluptatum? Molestiae labore eveniet accusantiume quama iure, quis amet accusamus hic ratione, odit iusto? Cupiditate quidem.</p>
             </div>
-            <div class="next_on_queque">
+            <div class="next_on_queque quequed">
                 <p class="text_next_on_queque">A continuación en la cola</p>
                 <div class="song_next_on_queque">
-                    <img class="img_next_on_queque" src="src/images/default.webp" alt="First Song On Queque" draggable="false">
+                    <img class="img_next_on_queque" id="img_next_on_queque" src="src/images/default.webp" alt="First Song On Queque" draggable="false">
                     <div class="details_next_on_queque">
-                        <p class="tittle_next_on_queque">Reproduce una canción</p>
-                        <p class="artist_next_on_queque">Reproduce una canción</p>
+                        <p class="tittle_next_on_queque" id="tittle_next_on_queque">Reproduce una canción</p>
+                        <p class="artist_next_on_queque" id="artist_next_on_queque">Reproduce una canción</p>
                     </div>
+                </div>
+            </div>
+            <div class="quequeContainer" id="quequeContainer">
+                <div class="quequeHeader">
+                    <p class="QuequeTitle">Cola</p>
+                    <p class="RecentTitle">Escuchado recientemente</p>
+                    <img class="close_queque_icon icon iconWhite" id="close_queque_icon" src="src/icons/icons8-x2-32.webp" alt="Close Queque" draggable="false">
+                </div>
+                <div class="queque_content_cont" id="queque_content_cont">
+                    <p class="actualSong">Sonando</p>
+                    <div class="actualSongShow" id="actualSongShow"></div>
+                    <p class="nextSongs">Siguiente</p>
+                    <div class="nextSongsShow" id="nextSongsShow"></div>
                 </div>
             </div>
         </div>
@@ -135,10 +151,10 @@
             <audio id="song_audio" src=""></audio>
             <div class="container_buttons">
                 <img class="shuffle_song_button icon iconGreen" id="shuffle_song_button" src="src/icons/icons8-shuffle-32.png" alt="shuffle" draggable="false">
-                <img class="backward_song_button icon iconWhite" src="src/icons/icons8-backward-32.webp" alt="backward" draggable="false">
+                <img class="backward_song_button icon iconWhite" id="backward_song_button" src="src/icons/icons8-backward-32.webp" alt="backward" draggable="false">
                 <button class="play_pause" id="player_button" aria-label="Play/Pause Button"></button>
-                <img class="forward_song_button icon iconWhite" src="src/icons/icons8-forward-32.png" alt="forward" draggable="false">
-                <img class="repeat_song_button icon iconGreen" id="repeat_song_button" src="src/icons/icons8-repeat-32.png" alt="repeat" draggable="false">
+                <img class="forward_song_button icon iconWhite" id ="forward_song_button" src="src/icons/icons8-forward-32.png" alt="forward" draggable="false">
+                <img class="repeat_song_button icon" id="repeat_song_button" src="src/icons/icons8-repeat-32.png" alt="repeat" draggable="false">
             </div>
             <div class="progress_bar_container">
                 <p class="current_time" id="current_time">0:00</p>

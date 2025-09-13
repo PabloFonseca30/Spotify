@@ -1,3 +1,5 @@
+let contadorRepeat = 0;
+
 document.addEventListener("DOMContentLoaded", () => {
     // PLAY/PAUSE BOTÓN
     const player_button = document.getElementById("player_button");
@@ -11,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
             song_audio.pause();
             player_button.classList.remove("playing");
         }
-        return;
     }
 
     player_button.addEventListener("click", () => {
@@ -48,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Poner en bucle la canción al activar el botón "repeat"
     const repeat_song_button = document.getElementById("repeat_song_button");
     function loopCheck(){
-        if(repeat_song_button.style.filter == green_filter){
+        if(contadorRepeat%3 == 2){
             song_audio.loop = true;
         }else{
             song_audio.loop = false;
@@ -60,24 +61,28 @@ document.addEventListener("DOMContentLoaded", () => {
         update_progressbar();
         loopCheck();
         checkSoundBarWidth();
-        //Resetear animación al acabar el audio
-        if(song_audio.duration == song_audio.currentTime){
+    });
+
+    song_audio.addEventListener("ended", () => {
+        // Solo resetear el botón si NO está en bucle
+        if (!song_audio.loop) {
             player_button.classList.remove("playing");
         }
     });
 
     // Ajustar el texto de la duración total de la canción
     const total_time = document.getElementById("total_time");
-    // Con loadmetadata esperamos a que los metadatos del audio como la duración estén preparados y cargados
+    // Con loadedmetadata esperamos a que los metadatos del audio como la duración estén preparados y cargados
     song_audio.addEventListener("loadedmetadata", () => {
         let minutes = Math.floor(song_audio.duration / 60);
         let seconds = Math.floor(song_audio.duration % 60);
+        let formatted_seconds2;
         if (seconds < 10) {
-            formatted_seconds = "0" + seconds;
+            formatted_seconds2 = "0" + seconds;
         } else {
-            formatted_seconds = seconds;
+            formatted_seconds2 = seconds;
         }
-        total_time.textContent = minutes + ":" + formatted_seconds;
+        total_time.textContent = minutes + ":" + formatted_seconds2;
     });
 
     // Cambiar la posición de la barra con un click
@@ -100,6 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ICONOS
     const green_filter = "brightness(0) saturate(100%) invert(76%) sepia(26%) saturate(1358%) hue-rotate(78deg) brightness(90%) contrast(87%)";
+    const white_filter = "brightness(0) saturate(100%) invert(99%) sepia(37%) saturate(147%) hue-rotate(270deg) brightness(116%) contrast(100%)";
     
     // BARRA DE VOLUMEN
     const volume_bar_outside = document.getElementById("volume_bar_outside");
@@ -158,7 +164,6 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // ICONOS
     // Iconos que cambian a verde al hacer click
-    const white_filter = "brightness(0) saturate(100%) invert(99%) sepia(37%) saturate(147%) hue-rotate(270deg) brightness(116%) contrast(100%)";
     const iconGreen = document.querySelectorAll(".iconGreen");
     let isHover = false;
     iconGreen.forEach(icon => {
@@ -197,4 +202,41 @@ document.addEventListener("DOMContentLoaded", () => {
             icon.style.filter = "unset";
         });
     });
+
+     // Iconos para repetir playlist o poner canción en bucle
+    repeat_song_button.style.filter = "unset";
+    let isHover2 = false;
+
+    repeat_song_button.addEventListener("click", () => {
+        contadorRepeat++;
+        if(contadorRepeat%3 == 1) {
+            repeat_song_button.src = "src/icons/icons8-repeat-32.png";
+            repeat_song_button.style.filter = green_filter;
+        } else if(contadorRepeat%3 == 2) {
+            repeat_song_button.src = "src/icons/icons8-repeat-one-32.webp";
+            repeat_song_button.style.filter = green_filter;
+        } else if(contadorRepeat%3 == 0 && isHover2 == true) {
+            repeat_song_button.src = "src/icons/icons8-repeat-32.png";
+            repeat_song_button.style.filter = white_filter;
+        } else if (contadorRepeat%3 == 0) {
+            repeat_song_button.src = "src/icons/icons8-repeat-32.png";
+            repeat_song_button.style.filter = "unset";
+        }
+    });
+
+    repeat_song_button.addEventListener("mouseover", () => {
+        isHover2 = true;
+        if(repeat_song_button.style.filter == "unset"){
+            repeat_song_button.style.filter = white_filter;
+        }
+    });
+
+    repeat_song_button.addEventListener("mouseout", () => {
+        isHover2 = false;
+        if(repeat_song_button.style.filter == white_filter){
+            repeat_song_button.style.filter = "unset";
+        }
+    });
 });
+
+export { contadorRepeat };

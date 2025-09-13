@@ -134,6 +134,10 @@
     cursor: pointer;
 }
 
+.repeat_song_button{
+    filter: unset;
+}
+
 .backward_song_button{
     margin-left: 1.3rem;
 }

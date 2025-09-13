@@ -120,31 +120,32 @@ canciones.forEach((cancion, index) => {
     sup_cont_songs_list.addEventListener("click", () => {
         playSongFromList();
     });
-
-    function playSongFromList(){
-        song_played.src = cancion.audio;
-        progress_bar_inside.style.width = "0%";
-        song_played.play();
-        if(!player_button.classList.contains("playing")){
-            player_button.classList.add("playing");
-        }
-        img_song_displayed_info.src = cancion.imagen;
-        tittle_song_displayed_info.textContent = cancion.titulo;
-        artist_song_displayed_info.textContent = cancion.artista.nombre;
-        img_song_displayed.src = cancion.imagen;
-        tittle_song_displayed.textContent = cancion.titulo;
-        artist_song_displayed.textContent = cancion.artista.nombre;
-        artist_about_artist.textContent = cancion.artista.nombre;
-        oyentes_about_artist.textContent = cancion.artista.oyentes + " oyentes mensuales";
-        desc_about_artist.textContent = cancion.artista.descripcion;
-        about_artist_song_displayed.style.background = 
-        `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)), url('${cancion.artista.imagen}') center/cover`;  //Insertar contenido fuera de css
-
-        // Guardar la canción en localStorage
-        if (window.lastSongManager) {
-            window.lastSongManager.save(cancion);
-        } else {
-            console.warn('localStorage manager no está disponible');
-        }
-    }
+    
 });
+
+function playSongFromList(){
+    song_played.src = cancion.audio;
+    progress_bar_inside.style.width = "0%";
+    song_played.play();
+    if(!player_button.classList.contains("playing")){
+        player_button.classList.add("playing");
+    }
+    img_song_displayed_info.src = cancion.imagen;
+    tittle_song_displayed_info.textContent = cancion.titulo;
+    artist_song_displayed_info.textContent = cancion.artista.nombre;
+    img_song_displayed.src = cancion.imagen;
+    tittle_song_displayed.textContent = cancion.titulo;
+    artist_song_displayed.textContent = cancion.artista.nombre;
+    artist_about_artist.textContent = cancion.artista.nombre;
+    oyentes_about_artist.textContent = cancion.artista.oyentes + " oyentes mensuales";
+    desc_about_artist.textContent = cancion.artista.descripcion;
+    about_artist_song_displayed.style.background = 
+    `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)), url('${cancion.artista.imagen}') center/cover`;  //Insertar contenido fuera de css
+
+    // Guardar la canción en localStorage
+    if (window.lastSongManager) {
+        window.lastSongManager.save(cancion);
+    } else {
+        console.warn('localStorage manager no está disponible');
+    }
+}
