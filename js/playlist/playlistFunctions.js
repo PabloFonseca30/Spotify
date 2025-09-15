@@ -10,6 +10,8 @@ const delete_typed = document.getElementById("delete_searched_song_list");
 const temporal_results = document.getElementById("temporal_results");
 const biblioteca = document.getElementById("biblioteca");
 
+let currentSong = null;
+
 // CONFIGURACIÓN DE LA BARRA DE BÚSQUEDA DE CANCIONES
 search_input.addEventListener("focus", () => {
     delete_typed.classList.add("writting");
@@ -489,11 +491,6 @@ function mostrarPlaylistsModal(containerToShow, srcChecked, cancionInPlaylist, i
                 playlists.forEach(playlist => {
                     crearPlaylistYFuncionalidades(playlist);
                 });
-
-                // Añadir a la cola si se está reproduciendo esa playlist
-                if(currentQuequePlaylist == playlist.id){
-                    colaCanciones.push(cancionInPlaylist);
-                }
             }
         });
 
@@ -552,6 +549,12 @@ function playSongFromListSearched(cancion){
     oyentes_about_artist.textContent = cancion.artista.oyentes + " oyentes mensuales";
     desc_about_artist.textContent = cancion.artista.descripcion;
     about_artist_song_displayed.style.background = `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)), url('${cancion.artista.imagen}') center/cover`;  //Insertar contenido fuera de css
+
+    // Añadir a escuchado recientemente
+    currentSong = cancion;
+    escuchadoRecienteShow.unshift(cancion);
+    createRecentElements(escuchadoRecienteShow);
+    console.log("RECIENTE: ", escuchadoRecienteShow);
 
     // Guardar la canción en localStorage
     if (window.lastSongManager) {
@@ -714,9 +717,8 @@ function updateDisplayedPlaylist(playlist){
 
         sup_cont_songs_list.addEventListener("click", () => {
             playSongFromList(cancion);
-            isPrev = true;
             isRandomn = true;
-            updateElementsQueque(isPrev, colaCanciones, cancion, isRandomn);
+            updateQuequeElements(cancion, isRandomn);
         });        
     });
 
@@ -765,6 +767,13 @@ function updateDisplayedPlaylist(playlist){
             play_pause_list_button.classList.remove("playing_list");
         }else{
             play_pause_list_button.classList.add("playing_list");
+        }
+
+        if(colaCanciones.length > 0 && song_played.src.includes(colaCanciones[0].audio)){
+            escuchadoReciente.push(colaCanciones[0]);
+            console.log("Escuchado reciente: ", escuchadoReciente);
+            createQueque();
+        } else {
             createQueque();
         }
     });
@@ -796,6 +805,12 @@ function playSongFromList(cancion){
     about_artist_song_displayed.style.background = 
     `linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)), url('${cancion.artista.imagen}') center/cover`;  //Insertar contenido fuera de css
 
+    // Añadir a escuchado recientemente
+    currentSong = cancion;
+    escuchadoRecienteShow.unshift(cancion);
+    createRecentElements(escuchadoRecienteShow);
+    console.log("RECIENTE: ", escuchadoRecienteShow);
+
     // Guardar la canción en localStorage
     if (window.lastSongManager) {
         window.lastSongManager.save(cancion);
@@ -816,41 +831,47 @@ addPlaylist.addEventListener("click", () => {
 // COLA
 // Creacción del array que simulará la cola
 const colaCanciones = [];
-let actualIndex = 0;
-let currentQuequePlaylist = null;
-
-function pushColaCanciones (element) {
-    if(colaCanciones.length > 70){
-        
-    }
-}
+const colaCancionesSobrantes = [];
+const escuchadoReciente = [];
+const escuchadoRecienteShow = [];
 
 const playlist_song_displayed = document.getElementById("playlist_song_displayed");
 
-function createQueque () {
+function pushColaCanciones(element) {
+    if(colaCanciones.length >= 70){
+        colaCancionesSobrantes.push(element);
+    } else {
+        colaCanciones.push(element);
+    }
+}
+
+// Crear cola
+function createQueque() {
     colaCanciones.length = 0;
-    currentQuequePlaylist = null;
-    actualIndex = 0;
+    colaCancionesSobrantes.length = 0;
+    escuchadoReciente.length = 0;
 
     playlists.forEach(playlist => {
         if(actualPlaylistDisplayed == playlist.id){
-            currentQuequePlaylist = actualPlaylistDisplayed;
             playlist.canciones.forEach(cancion => {
-                colaCanciones.push(cancion);
+                pushColaCanciones(cancion);
             });
             playlist_song_displayed.textContent = playlist.nombre;
         }
     });
 
     createQuequeElements(colaCanciones);
-    isPrev = false;
-    isRandomn = false;
-    const cancionActual = colaCanciones[actualIndex];
-    updateElementsQueque(isPrev, colaCanciones, cancionActual, isRandomn);
 
     if(colaCanciones.length > 0){
-        playSongFromList(colaCanciones[actualIndex]);
-        setupNextSongListener();
+        playSongFromList(colaCanciones[0]);
+        isRandomn = false;
+        updateQuequeElements(colaCanciones[0], isRandomn);
+        
+
+        console.log("Escuchado reciente: ", escuchadoReciente);
+        console.log("Cola canciones: ", colaCanciones);
+        
+        setupNextSongListener ();
     }
 }
 
@@ -860,32 +881,227 @@ function setupNextSongListener () {
     song_played.addEventListener("ended", playNextSong);
 }
 
-function playNextSong () {
-    actualIndex++;
-    if(colaCanciones.length > actualIndex){
-        playSongFromList(colaCanciones[actualIndex]);
-        setupNextSongListener();
-        isPrev = false;
-        isRandomn = false;
-        const cancionActual = colaCanciones[actualIndex];
-        updateElementsQueque(isPrev, colaCanciones, cancionActual, isRandomn);
-    }else{
-        actualIndex = 0;
+function playNextSong() {
+    if(colaCanciones.length > 0) {
+        escuchadoReciente.push(colaCanciones[0]);   // Mover la canción actual al historial
+        colaCanciones.shift();  // Eliminar la canción actual de la cola
+        
+        // Si hay canciones sobrantes, mover una a la cola principal
+        if(colaCancionesSobrantes.length > 0 && colaCanciones.length < 70){
+            const siguienteCancion = colaCancionesSobrantes.shift();
+            colaCanciones.push(siguienteCancion);
+        }
+        
+        // Reproducir la siguiente canción si existe
+        if(colaCanciones.length > 0) {
+            playSongFromList(colaCanciones[0]);
+            isRandomn = false;
+            updateQuequeElements(colaCanciones[0], isRandomn);
+
+            // Actualizar los elementos de la cola
+            const updateQuequeSongs = [];
+            let count = 0;
+            colaCanciones.forEach(cancion => {
+                count++;
+                if(count != 1){
+                    updateQuequeSongs.push(cancion);
+                }
+            })
+            createQuequeElements(updateQuequeSongs);
+            
+            console.log("Escuchado reciente: ", escuchadoReciente);
+            console.log("Cola canciones: ", colaCanciones);
+            
+            setupNextSongListener();
+        }
     }
 }
 
-function playPrevSong () {
-    actualIndex--;
-    if(actualIndex >= 0){
-        playSongFromList(colaCanciones[actualIndex]);
-        setupNextSongListener();
-        isPrev = true;
-        isRandomn = false;
-        const cancionActual = colaCanciones[actualIndex];
-        updateElementsQueque(isPrev, colaCanciones, cancionActual, isRandomn);
-    }else{
-        actualIndex = 0;
+function playPrevSong() {
+    // Verificar que hay canciones en el historial
+    if(escuchadoReciente.length === 0) {
+        console.log("No hay canciones previas");
+        return;
     }
+    
+    // Si la cola está llena, mover la última canción a sobrantes
+    if(colaCanciones.length >= 70) {
+        const ultimaCancion = colaCanciones.pop();
+        colaCancionesSobrantes.unshift(ultimaCancion);
+    }
+    
+    // Obtener la canción anterior del historial y ponerla al inicio de la cola
+    const cancionAnterior = escuchadoReciente.pop();
+    colaCanciones.unshift(cancionAnterior);
+    
+    console.log("Escuchado reciente: ", escuchadoReciente);
+    console.log("Cola canciones: ", colaCanciones);
+
+    // Reproducir la canción anterior
+    playSongFromList(colaCanciones[0]);
+    isRandomn = false;
+    updateQuequeElements(colaCanciones[0], isRandomn);
+
+    // Actualizar los elementos de la cola
+    const updateQuequeSongs = [];
+    let count = 0;
+    colaCanciones.forEach(cancion => {
+        count++;
+        if(count != 1){
+            updateQuequeSongs.push(cancion);
+        }
+    })
+    createQuequeElements(updateQuequeSongs);
+
+    setupNextSongListener();
+}
+
+// Crear los elementos de la cola
+function createQuequeElements(colaCanciones){
+    while(nextSongsShow.firstChild){
+        nextSongsShow.removeChild(nextSongsShow.firstChild);
+    }
+
+    colaCanciones.forEach(cancion => {
+        // Crear contenedor con datos principales de la canción
+        const cont_songs_list_queque = document.createElement("div");
+        nextSongsShow.appendChild(cont_songs_list_queque);
+        cont_songs_list_queque.classList.add("cont_songs_list_queque");
+
+        // Crear imagen y asociar datos
+        const img_songs_list_queque = document.createElement("img");
+        cont_songs_list_queque.appendChild(img_songs_list_queque);
+        img_songs_list_queque.classList.add("img_songs_list_queque");
+        img_songs_list_queque.setAttribute("alt", "Imagen del album");
+        img_songs_list_queque.src = cancion.imagen;
+        
+        // Crear contenedor interior "details_songs_list"
+        const details_songs_list_queque = document.createElement("div");
+        cont_songs_list_queque.appendChild(details_songs_list_queque);
+        details_songs_list_queque.classList.add("details_songs_list_queque");
+
+        // Crear texto y asociar datos del título
+        const tittle_songs_list_queque = document.createElement("p");
+        details_songs_list_queque.appendChild(tittle_songs_list_queque);
+        tittle_songs_list_queque.classList.add("tittle_songs_list_queque");
+        tittle_songs_list_queque.textContent = cancion.titulo;
+
+        // Crear texto y asociar datos del artista
+        const artist_songs_list_queque = document.createElement("p");
+        details_songs_list_queque.appendChild(artist_songs_list_queque);
+        artist_songs_list_queque.classList.add("artist_songs_list_queque");
+        artist_songs_list_queque.textContent = cancion.artista.nombre;
+    });
+}
+
+// Actualizar la canción escuchada y la cola
+const text_next_on_queque = document.getElementById("text_next_on_queque");
+const img_next_on_queque = document.getElementById("img_next_on_queque");
+const tittle_next_on_queque = document.getElementById("tittle_next_on_queque");
+const artist_next_on_queque = document.getElementById("artist_next_on_queque");
+const song_next_on_queque = document.getElementById("song_next_on_queque");
+const empty_queque = document.getElementById("empty_queque");
+let isRandomn = false;
+
+function updateQuequeElements(cancionActualizar, isRandomn) {
+    if(nextSongsShow.firstChild && isRandomn == false){
+        nextSongsShow.removeChild(nextSongsShow.firstChild);
+    }
+
+    if(actualSongShow.firstChild){
+        actualSongShow.removeChild(actualSongShow.firstChild);
+    }
+
+    // Crear contenedor con datos principales de la canción
+    const cont_songs_list_queque = document.createElement("div");
+    actualSongShow.appendChild(cont_songs_list_queque);
+    cont_songs_list_queque.classList.add("cont_songs_list_queque");
+
+    // Crear imagen y asociar datos
+    const img_songs_list_queque = document.createElement("img");
+    cont_songs_list_queque.appendChild(img_songs_list_queque);
+    img_songs_list_queque.classList.add("img_songs_list_queque");
+    img_songs_list_queque.setAttribute("alt", "Imagen del album");
+    img_songs_list_queque.src = cancionActualizar.imagen;
+    
+    // Crear contenedor interior "details_songs_list"
+    const details_songs_list_queque = document.createElement("div");
+    cont_songs_list_queque.appendChild(details_songs_list_queque);
+    details_songs_list_queque.classList.add("details_songs_list_queque");
+
+    // Crear texto y asociar datos del título
+    const tittle_songs_list_queque = document.createElement("p");
+    details_songs_list_queque.appendChild(tittle_songs_list_queque);
+    tittle_songs_list_queque.classList.add("tittle_songs_list_queque");
+    tittle_songs_list_queque.textContent = cancionActualizar.titulo;
+
+    // Crear texto y asociar datos del artista
+    const artist_songs_list_queque = document.createElement("p");
+    details_songs_list_queque.appendChild(artist_songs_list_queque);
+    artist_songs_list_queque.classList.add("artist_songs_list_queque");
+    artist_songs_list_queque.textContent = cancionActualizar.artista.nombre;
+
+    if(isRandomn == false && colaCanciones.length > 1){
+        // Rellenar contenedor "a continuación en la cola"
+        const cancionSiguiente = colaCanciones[1];
+        song_next_on_queque.style.display = "flex";
+        empty_queque.style.display = "none";
+        text_next_on_queque.textContent = "A continuación en la cola";
+        img_next_on_queque.src = cancionSiguiente.imagen;
+        tittle_next_on_queque.textContent = cancionSiguiente.titulo;
+        artist_next_on_queque.textContent = cancionSiguiente.artista.nombre;
+    }
+
+    if(isRandomn == false && colaCanciones.length <= 1){
+        song_next_on_queque.style.display = "none";
+        empty_queque.style.display = "block";
+        text_next_on_queque.textContent = "Tu cola está vacía";
+    }
+}
+
+// Crear elementos de escuchado recientemente
+const escuchadoRecienteInt = document.getElementById("escuchadoRecienteInt");
+
+function createRecentElements(escuchadoRecienteShow) {
+    let contador = 0;
+
+    while(escuchadoRecienteInt.firstChild){
+        escuchadoRecienteInt.removeChild(escuchadoRecienteInt.firstChild);
+    }
+
+    escuchadoRecienteShow.forEach(cancion => {
+        contador ++;
+        if(contador <= 70){
+            // Crear contenedor con datos principales de la canción
+            const cont_songs_list_queque = document.createElement("div");
+            escuchadoRecienteInt.appendChild(cont_songs_list_queque);
+            cont_songs_list_queque.classList.add("cont_songs_list_queque");
+
+            // Crear imagen y asociar datos
+            const img_songs_list_queque = document.createElement("img");
+            cont_songs_list_queque.appendChild(img_songs_list_queque);
+            img_songs_list_queque.classList.add("img_songs_list_queque");
+            img_songs_list_queque.setAttribute("alt", "Imagen del album");
+            img_songs_list_queque.src = cancion.imagen;
+            
+            // Crear contenedor interior "details_songs_list"
+            const details_songs_list_queque = document.createElement("div");
+            cont_songs_list_queque.appendChild(details_songs_list_queque);
+            details_songs_list_queque.classList.add("details_songs_list_queque");
+
+            // Crear texto y asociar datos del título
+            const tittle_songs_list_queque = document.createElement("p");
+            details_songs_list_queque.appendChild(tittle_songs_list_queque);
+            tittle_songs_list_queque.classList.add("tittle_songs_list_queque");
+            tittle_songs_list_queque.textContent = cancion.titulo;
+
+            // Crear texto y asociar datos del artista
+            const artist_songs_list_queque = document.createElement("p");
+            details_songs_list_queque.appendChild(artist_songs_list_queque);
+            artist_songs_list_queque.classList.add("artist_songs_list_queque");
+            artist_songs_list_queque.textContent = cancion.artista.nombre;
+        }
+    });
 }
 
 // Botón de cola - Alternar entre animaciones
@@ -930,111 +1146,52 @@ close_queque_icon.addEventListener("click", () => {
     queueButton.style.filter = "brightness(0) saturate(100%) invert(99%) sepia(37%) saturate(147%) hue-rotate(270deg) brightness(116%) contrast(100%)";
 });
 
+// Alternar entre cola y escuchado recientemente
+const queque_content_cont = document.getElementById("queque_content_cont");
+const escuchadoRecienteCont = document.getElementById("escuchadoRecienteCont");
+const QuequeTitle = document.getElementById("QuequeTitle");
+const RecentTitle = document.getElementById("RecentTitle");
+
+QuequeTitle.addEventListener("click", () => {
+    if(queque_content_cont.classList.contains("active")){
+        queque_content_cont.classList.remove("active");
+        escuchadoRecienteCont.classList.remove("active");
+        QuequeTitle.style.borderBottom = "solid 2px #00DB50";
+        RecentTitle.style.borderBottom = "solid 2px #000000";
+    }
+});
+
+RecentTitle.addEventListener("click", () => {
+    if(!escuchadoRecienteCont.classList.contains("active")){
+        queque_content_cont.classList.add("active");
+        escuchadoRecienteCont.classList.add("active");
+        QuequeTitle.style.borderBottom = "solid 2px #000000";
+        RecentTitle.style.borderBottom = "solid 2px #00DB50";
+    }
+});
+
 const nextSongsShow = document.getElementById("nextSongsShow");
-
-// Crear elementos de la cola
-function createQuequeElements (colaCanciones) {
-    while(nextSongsShow.firstChild){
-        nextSongsShow.removeChild(nextSongsShow.firstChild);
-    }
-
-    colaCanciones.forEach(cancion => {
-        // Crear contenedor con datos principales de la canción
-        const cont_songs_list_queque = document.createElement("div");
-        nextSongsShow.appendChild(cont_songs_list_queque);
-        cont_songs_list_queque.classList.add("cont_songs_list_queque");
-
-        // Crear imagen y asociar datos
-        const img_songs_list_queque = document.createElement("img");
-        cont_songs_list_queque.appendChild(img_songs_list_queque);
-        img_songs_list_queque.classList.add("img_songs_list_queque");
-        img_songs_list_queque.setAttribute("alt", "Imagen del album");
-        img_songs_list_queque.src = cancion.imagen;
-        
-        // Crear contenedor interior "details_songs_list"
-        const details_songs_list_queque = document.createElement("div");
-        cont_songs_list_queque.appendChild(details_songs_list_queque);
-        details_songs_list_queque.classList.add("details_songs_list_queque");
-
-        // Crear texto y asociar datos del título
-        const tittle_songs_list_queque = document.createElement("p");
-        details_songs_list_queque.appendChild(tittle_songs_list_queque);
-        tittle_songs_list_queque.classList.add("tittle_songs_list_queque");
-        tittle_songs_list_queque.textContent = cancion.titulo;
-
-        // Crear texto y asociar datos del artista
-        const artist_songs_list_queque = document.createElement("p");
-        details_songs_list_queque.appendChild(artist_songs_list_queque);
-        artist_songs_list_queque.classList.add("artist_songs_list_queque");
-        artist_songs_list_queque.textContent = cancion.artista.nombre;
-    });
-}
-
-// Función para actualizar la cola
-// Parámetros: 
-// - isPrev: booleano para indicar si se presionó el botón de backwards o si se reproduce una canción ajena a la cola
-// - colaCanciones: array con las canciones de la cola
-// - element: elemento del que obtener los datos a mostrar
-// - isRandomn: indica que se ha reproducido una canción ajena a la playlist
-const img_next_on_queque = document.getElementById("img_next_on_queque");
-const tittle_next_on_queque = document.getElementById("tittle_next_on_queque");
-const artist_next_on_queque = document.getElementById("artist_next_on_queque");
 const actualSongShow = document.getElementById("actualSongShow");
-let isPrev = false;
-let isRandomn = false;
 
-function updateElementsQueque (isPrev, colaCanciones, element, isRandomn) {
-    if(actualSongShow.firstChild){
-        actualSongShow.removeChild(actualSongShow.firstChild);
-    }
-
-    // Crear contenedor con datos principales de la canción
-    const cont_songs_list_queque = document.createElement("div");
-    actualSongShow.appendChild(cont_songs_list_queque);
-    cont_songs_list_queque.classList.add("cont_songs_list_queque");
-
-    // Crear imagen y asociar datos
-    const img_songs_list_queque = document.createElement("img");
-    cont_songs_list_queque.appendChild(img_songs_list_queque);
-    img_songs_list_queque.classList.add("img_songs_list_queque");
-    img_songs_list_queque.setAttribute("alt", "Imagen del album");
-    img_songs_list_queque.src = element.imagen;
-    
-    // Crear contenedor interior "details_songs_list"
-    const details_songs_list_queque = document.createElement("div");
-    cont_songs_list_queque.appendChild(details_songs_list_queque);
-    details_songs_list_queque.classList.add("details_songs_list_queque");
-
-    // Crear texto y asociar datos del título
-    const tittle_songs_list_queque = document.createElement("p");
-    details_songs_list_queque.appendChild(tittle_songs_list_queque);
-    tittle_songs_list_queque.classList.add("tittle_songs_list_queque");
-    tittle_songs_list_queque.textContent = element.titulo;
-
-    // Crear texto y asociar datos del artista
-    const artist_songs_list_queque = document.createElement("p");
-    details_songs_list_queque.appendChild(artist_songs_list_queque);
-    artist_songs_list_queque.classList.add("artist_songs_list_queque");
-    artist_songs_list_queque.textContent = element.artista.nombre;
-
-    if(nextSongsShow.firstChild && isPrev == false){
-        nextSongsShow.removeChild(nextSongsShow.firstChild);
-    }
-
-    // Añadir canción previa a reproducir la anterior en la cola
-    if(isPrev == true){
-        const newQuequeElements = colaCanciones.slice(actualIndex + 1); // slice() crea una copia de un array y devuelve ese nuevo array
-        createQuequeElements(newQuequeElements);
-    }
-    
-    if(isRandomn == false){
-        // Rellenar contenedor "a continuación en la cola"
-        const cancionSiguiente = colaCanciones[actualIndex + 1];
-        img_next_on_queque.src = cancionSiguiente.imagen;
-        tittle_next_on_queque.textContent = cancionSiguiente.titulo;
-        artist_next_on_queque.textContent = cancionSiguiente.artista.nombre;
-    }
-}
+// Accion al clicar el botón de cola vacía
+empty_queque.addEventListener("click", () => {
+    searchbar.style.border = "solid 1.5px #00DC4B";
+    setTimeout( () => {
+        searchbar.style.border = "solid 1.5px rgb(85, 85, 85)";
+    }, 150);
+    setTimeout( () => {
+        searchbar.style.border = "solid 1.5px #00DC4B";
+    }, 300);
+    setTimeout( () => {
+        searchbar.style.border = "solid 1.5px rgb(85, 85, 85)";
+    }, 450);
+    setTimeout( () => {
+        searchbar.style.border = "solid 1.5px #00DC4B";
+    }, 600);
+    setTimeout( () => {
+        searchbar.style.border = "";
+    }, 750);
+});
 
 // ----------------------------------------------------------------------------------------------
 // Comprobar si el contenedor nextSongsShow de la cola está vacío y eliminar el texto "Siguiente"

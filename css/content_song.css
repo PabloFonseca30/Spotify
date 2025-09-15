@@ -168,12 +168,12 @@ input::selection {  /* Selección para inputs */
 }
 
 .song_next_on_queque{
-    display: flex;
     flex-direction: row;
     padding: 0rem;
     margin: 0rem;
     align-items: center;
     margin-top: 1rem;
+    display: none;
 }
 
 .details_next_on_queque{
@@ -213,6 +213,19 @@ input::selection {  /* Selección para inputs */
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
+}
+
+.empty_queque{
+    border: solid 1px white;
+    border-radius: 20px;
+    width: fit-content;
+    padding: 0.5rem;
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;;
+    margin-top: 1.25rem;
+    margin-bottom: 0;
+    display: block;
+    cursor: pointer;
 }
 
 /* Contenedor para la cola */
@@ -281,25 +294,44 @@ input::selection {  /* Selección para inputs */
 .QuequeTitle{
     margin: 0;
     font-size: 0.9em;
+    cursor: pointer;
+    padding-bottom: 0.5rem;
+    border-bottom: solid 2px #00DB50;
 }
 
 .RecentTitle{
     margin: 0;
     margin-left: 2rem;
     font-size: 0.9em;
+    cursor: pointer;
+    padding-bottom: 0.5rem;
 }
 
 .close_queque_icon{
     width: 0.9rem;
     margin-left: auto;
     cursor: pointer;
-    margin-right: 0.5rem;
+    margin-right: 0.3rem;
 }
 
 .queque_content_cont{
     width: 100%;
     height: fit-content;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
+}
+
+.escuchadoRecienteCont{
+    width: 100%;
+    height: fit-content;
+    margin-top: 2rem;
+}
+
+.queque_content_cont, .escuchadoRecienteCont.active{
+    display: block;
+}
+
+.escuchadoRecienteCont, .queque_content_cont.active{
+    display: none;
 }
 
 /* Elementos de la cola */
