@@ -56,46 +56,51 @@
             </div>
         </div>
         <div class="displayed category">
-            <div class="header_list">
-                <img class="img_header_list" id="img_header_list" src="src/images/default.webp" alt="Playlist image" draggable="false">
-                <div class="details_header_list">
-                    <p class="tittle_header_list" id="tittle_header_list">Selecciona una playlist</p>
-                    <p class="info_header_list" id="info_header_list">Selecciona una playlist</p> <!-- Numero de canciones y tiempo total-->
+            <div class="displayed_inner_container" id="displayed_inner_container">
+                <div class="header_list">
+                    <img class="img_header_list" id="img_header_list" src="src/images/default.webp" alt="Playlist image" draggable="false">
+                    <div class="details_header_list">
+                        <p class="tittle_header_list" id="tittle_header_list">Selecciona una playlist</p>
+                        <p class="info_header_list" id="info_header_list">Selecciona una playlist</p> <!-- Numero de canciones y tiempo total-->
+                    </div>
                 </div>
-            </div>
-            <!-- DEMASIADOS CONTENEDORES!!!!! -->
-            <div class="options_list">
-                <div class="options_list_container">
-                    <div class="options_list_a">
-                        <div class="play_pause_list_cont" id="play_pause_list_cont">
-                            <button class="play_pause_list" id="play_pause_list" aria-label="Play/Pause Button"></button>
+                <!-- DEMASIADOS CONTENEDORES!!!!! -->
+                <div class="options_list">
+                    <div class="options_list_container">
+                        <div class="options_list_a">
+                            <div class="play_pause_list_cont" id="play_pause_list_cont">
+                                <button class="play_pause_list" id="play_pause_list" aria-label="Play/Pause Button"></button>
+                            </div>
+                            <img class="shuffle_song_button_list icon iconGreen" id="shuffle_song_button_list" src="src/icons/icons8-shuffle-32.png" alt="shuffle" draggable="false">
+                            <img class="settings_song_button_list icon iconWhite" src="src/icons/icons8-settings-32.png" alt="settings" draggable="false">
                         </div>
-                        <img class="shuffle_song_button_list icon iconGreen" id="shuffle_song_button_list" src="src/icons/icons8-shuffle-32.png" alt="shuffle" draggable="false">
-                        <img class="settings_song_button_list icon iconWhite" src="src/icons/icons8-settings-32.png" alt="settings" draggable="false">
+                        <div class="options_list_b">
+                            <img class="search_song_button_list icon iconWhite" src="src/icons/icons8-search-32.png" alt="search" draggable="false">
+                            <div class="customOrder icon iconWhite" id="customOrder">
+                                <p class="order_list">Orden personalizado</p>
+                                <img class="order_list_button" src="src/icons/icons8-queque-32.png" alt="order" draggable="false">
+                            </div>
+                        </div>
                     </div>
-                    <div class="options_list_b">
-                        <img class="search_song_button_list icon iconWhite" src="src/icons/icons8-search-32.png" alt="search" draggable="false">
-                        <div class="customOrder icon iconWhite" id="customOrder">
-                            <p class="order_list">Orden personalizado</p>
-                            <img class="order_list_button" src="src/icons/icons8-queque-32.png" alt="order" draggable="false">
+                    <div class="table_songs_list">
+                        <div class="id_tittle_table">
+                            <p class="id_table content_table">#</p>
+                            <p class="tittle_table content_table">Título</p>
+                        </div>
+                        <div class="album_table">
+                            <p class="album_table_content content_table">Álbum</p>
+                        </div>
+                        <div class="duration_table">
+                            <img src="src/icons/icons8-duration-32.png" class="duration_table_content content_table" alt="Song Duration" draggable="false">
                         </div>
                     </div>
                 </div>
-                <div class="table_songs_list">
-                    <div class="id_tittle_table">
-                        <p class="id_table content_table">#</p>
-                        <p class="tittle_table content_table">Título</p>
-                    </div>
-                    <div class="album_table">
-                        <p class="album_table_content content_table">Álbum</p>
-                    </div>
-                    <div class="duration_table">
-                        <img src="src/icons/icons8-duration-32.png" class="duration_table_content content_table" alt="Song Duration" draggable="false">
-                    </div>
-                </div>
+                <!-- ================================= -->
+                <div class="songs_list" id="songs_list"></div>
             </div>
-            <!-- ================================= -->
-            <div class="songs_list" id="songs_list"></div>
+            <div class="song_lyrics unactive" id="song_lyrics">
+                <p class="lyrics_default_text">Parece que no hemos encontrado la letra de esta canción</p>
+            </div>
         </div>
         <div class="song category" id="song_mainPpal_container">
             <div class="playlist_song_displayed_cont">
@@ -132,13 +137,21 @@
                     <img class="close_queque_icon icon iconWhite" id="close_queque_icon" src="src/icons/icons8-x2-32.webp" alt="Close Queque" draggable="false">
                 </div>
                 <div class="queque_content_cont" id="queque_content_cont">
-                    <p class="actualSong">Sonando</p>
+                    <p class="actualSong" id="actualSong">Sonando</p>
                     <div class="actualSongShow" id="actualSongShow"></div>
-                    <p class="nextSongs">Siguiente</p>
+                    <p class="nextSongs" id="nextSongs">Siguiente</p>
                     <div class="nextSongsShow" id="nextSongsShow"></div>
+                    <div class="errorQuequeEmpty" id="errorQuequeEmpty">
+                        <p class="emptyQuequeText" id="emptyQuequeText">La cola está vacía</p>
+                        <p class="empty_queque" id="empty_queque2">Busca algo nuevo</p>
+                    </div>
                 </div>
                 <div class="escuchadoRecienteCont" id="escuchadoRecienteCont">
                     <div class="escuchadoRecienteInt" id="escuchadoRecienteInt"></div>
+                    <div class="errorQuequeEmpty" id="errorQuequeEmpty2">
+                        <p class="emptyQuequeText" id="emptyQuequeText2">No has escuchado nada recientemente</p>
+                        <p class="empty_queque" id="empty_queque3">Busca algo nuevo</p>
+                    </div>
                 </div>
             </div>
         </div>

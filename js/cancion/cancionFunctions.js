@@ -111,19 +111,19 @@ canciones.forEach((cancion, index) => {
     const desc_about_artist = document.getElementById("desc_about_artist");
     let button_play_song = document.getElementById("play_songs_list" + index);
     button_play_song.addEventListener("click", () => {
-        playSongFromList();
+        playSongFromList(cancion);
     });
     tittle_songs_list.addEventListener("click", () => {
-        playSongFromList();
+        playSongFromList(cancion);
     });
 
     sup_cont_songs_list.addEventListener("click", () => {
-        playSongFromList();
+        playSongFromList(cancion);
     });
     
 });
 
-function playSongFromList(){
+function playSongFromList(cancion){
     song_played.src = cancion.audio;
     progress_bar_inside.style.width = "0%";
     song_played.play();

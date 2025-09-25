@@ -239,4 +239,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// Funcion letra de canciones
+const microphone_song_button = document.getElementById("microphone_song_button");
+const song_lyrics = document.getElementById("song_lyrics");
+const displayed_inner_container = document.getElementById("displayed_inner_container");
+
+microphone_song_button.addEventListener("click", () => {
+    if(song_lyrics.classList.contains("unactive")){
+        song_lyrics.classList.remove("unactive");
+        displayed_inner_container.style.display = "none";
+    } else {
+        song_lyrics.classList.add("unactive");
+        displayed_inner_container.style.display = "block";
+    }
+});
+
 export { contadorRepeat };

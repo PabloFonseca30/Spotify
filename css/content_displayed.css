@@ -332,3 +332,26 @@
     display: flex;
     align-items: center;
 }
+
+/* Letra de canciones */
+.song_lyrics{
+    width: auto;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333333;
+    padding: 3rem;
+}
+
+.song_lyrics.unactive{
+    display: none;
+}
+
+.lyrics_default_text{
+    font-size: 2.8rem;
+    font-weight: 550;
+    line-height: 3.5rem;
+    overflow-wrap: break-word;
+    white-space: normal;
+}

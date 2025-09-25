@@ -297,6 +297,7 @@ input::selection {  /* Selección para inputs */
     cursor: pointer;
     padding-bottom: 0.5rem;
     border-bottom: solid 2px #00DB50;
+    transition: border-color 0.25s ease-in-out;
 }
 
 .RecentTitle{
@@ -305,6 +306,7 @@ input::selection {  /* Selección para inputs */
     font-size: 0.9em;
     cursor: pointer;
     padding-bottom: 0.5rem;
+    transition: border-color 0.25s ease-in-out;
 }
 
 .close_queque_icon{
@@ -335,7 +337,7 @@ input::selection {  /* Selección para inputs */
 }
 
 /* Elementos de la cola */
-.cont_songs_list_queque{
+.cont_songs_list_queque, .cont_songs_list_queque_sound{
     width: 100%;
     height: fit-content;
     display: flex;
@@ -346,15 +348,20 @@ input::selection {  /* Selección para inputs */
     flex-shrink: 0;
     padding-top: 0.4rem;
     padding-bottom: 0.4rem;
+    border-radius: 5px;
 }
 
-.img_songs_list_queque{
+.cont_songs_list_queque:hover{
+    background-color: rgba(255, 255, 255, 0.072);
+}
+
+.img_songs_list_queque, .img_songs_list_queque_sound{
     height: 2.8rem;
     border-radius: 5px;
-    cursor: pointer;
+    margin-left: 0.4rem;
 }
 
-.tittle_songs_list_queque{
+.tittle_songs_list_queque, .tittle_songs_list_queque_sound{
     margin-bottom: 0.3rem !important;
     font-size: 0.9rem;
     margin: 0rem;
@@ -364,7 +371,7 @@ input::selection {  /* Selección para inputs */
     width: 100%;
 }
 
-.artist_songs_list_queque{
+.artist_songs_list_queque, .artist_songs_list_queque_sound{
     font-size: 0.8rem;
     margin: 0;
     color: rgb(162, 162, 162);
@@ -374,7 +381,7 @@ input::selection {  /* Selección para inputs */
     width: 100%;
 }
 
-.details_songs_list_queque{
+.details_songs_list_queque, .details_songs_list_queque_sound{
     margin-left: 1rem;
     height: fit-content;
     flex: 1;
@@ -389,4 +396,14 @@ input::selection {  /* Selección para inputs */
 
 .nextSongs{
     margin-top: 2rem;
+}
+
+.errorQuequeEmpty, .errorQuequeEmpty2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    margin-top: 6rem;
 }
