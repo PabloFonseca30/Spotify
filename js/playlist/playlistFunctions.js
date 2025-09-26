@@ -9,6 +9,7 @@ const search_input = document.getElementById("search_input");
 const delete_typed = document.getElementById("delete_searched_song_list");
 const temporal_results = document.getElementById("temporal_results");
 const biblioteca = document.getElementById("biblioteca");
+const close_queque_icon = document.getElementById("close_queque_icon");
 
 let currentSong = null;
 
@@ -126,7 +127,7 @@ function cargarResultados(texto_buscado) {
                 ext_cont_songs_searched.appendChild(img_songs_searched);
                 img_songs_searched.classList.add("img_songs_searched");
                 img_songs_searched.setAttribute("alt", "Imagen del album");
-                img_songs_searched.src = cancionInPlaylist.imagen;
+                img_songs_searched.src = cancionInPlaylist.album.imagen;
                 img_songs_searched.style.cursor = "pointer";
 
                 // Contenedor interior "details_songs_searched"
@@ -539,10 +540,10 @@ function playSongFromListSearched(cancion){
     if(!player_button.classList.contains("playing")){
         player_button.classList.add("playing");
     }
-    img_song_displayed_info.src = cancion.imagen;
+    img_song_displayed_info.src = cancion.album.imagen;
     tittle_song_displayed_info.textContent = cancion.titulo;
     artist_song_displayed_info.textContent = cancion.artista.nombre;
-    img_song_displayed.src = cancion.imagen;
+    img_song_displayed.src = cancion.album.imagen;
     tittle_song_displayed.textContent = cancion.titulo;
     artist_song_displayed.textContent = cancion.artista.nombre;
     artist_about_artist.textContent = cancion.artista.nombre;
@@ -625,13 +626,21 @@ function crearPlaylistYFuncionalidades(playlist, index){
     songs_amount_playlist.style.cursor = "pointer";
 
     cont_playlists.addEventListener("click", () => {
+        const song_lyrics = document.getElementById("song_lyrics");
+        if(!song_lyrics.classList.contains("unactive")){
+            song_lyrics.classList.add("unactive");
+            displayed_inner_container.style.display = "block";
+            const microphone_song_button = document.getElementById("microphone_song_button");
+            microphone_song_button.style.filter = "unset";
+        }
+
         // Función borrar actuales y meter canciones playlist
         updateDisplayedPlaylist(playlist);
 
         let contador = -1;
         playlist.canciones.forEach(cancion => {
             contador++;
-            if(cancion.id == colaCanciones[0].id){
+            if(colaCanciones[0] && cancion.id == colaCanciones[0].id){
                 const tittle_songs_list = document.getElementById("tittle_songs_list_" + contador);
                 tittle_songs_list.style.color = "#26D760";
             }
@@ -681,7 +690,7 @@ function updateDisplayedPlaylist(playlist){
         cont_songs_list.appendChild(img_songs_list);
         img_songs_list.classList.add("img_songs_list");
         img_songs_list.setAttribute("alt", "Imagen del album");
-        img_songs_list.src = cancion.imagen;
+        img_songs_list.src = cancion.album.imagen;
         
         // Crear contenedor interior "details_songs_list"
         const details_songs_list = document.createElement("div");
@@ -713,7 +722,7 @@ function updateDisplayedPlaylist(playlist){
         const album_songs_list = document.createElement("p");
         cont_album_songs_list.appendChild(album_songs_list);
         album_songs_list.classList.add("album_songs_list");
-        album_songs_list.textContent = cancion.album;
+        album_songs_list.textContent = cancion.album.nombre;
         album_songs_list.style.userSelect = "none";
 
         // Crear contenedor con datos de la duración
@@ -736,6 +745,15 @@ function updateDisplayedPlaylist(playlist){
             playSongFromList(cancion);
             isRandomn = true;
             updateQuequeElements(cancion, isRandomn, actualPlaylistDisplayed);
+            const song_lyrics = document.getElementById("song_lyrics");
+            
+            if(cancion.album.color == "unset"){
+                song_lyrics.style.backgroundColor = "#333333";
+            }else {
+                song_lyrics.style.backgroundColor = cancion.album.color;
+            }
+
+            changeLyrics(cancion);
         });        
     });
 
@@ -810,10 +828,10 @@ function playSongFromList(cancion){
     if(!player_button.classList.contains("playing")){
         player_button.classList.add("playing");
     }
-    img_song_displayed_info.src = cancion.imagen;
+    img_song_displayed_info.src = cancion.album.imagen;
     tittle_song_displayed_info.textContent = cancion.titulo;
     artist_song_displayed_info.textContent = cancion.artista.nombre;
-    img_song_displayed.src = cancion.imagen;
+    img_song_displayed.src = cancion.album.imagen;
     tittle_song_displayed.textContent = cancion.titulo;
     artist_song_displayed.textContent = cancion.artista.nombre;
     artist_about_artist.textContent = cancion.artista.nombre;
@@ -1005,7 +1023,7 @@ function createQuequeElements(colaCanciones, buttonPressed){
         cont_songs_list_queque.appendChild(img_songs_list_queque);
         img_songs_list_queque.classList.add("img_songs_list_queque");
         img_songs_list_queque.setAttribute("alt", "Imagen del album");
-        img_songs_list_queque.src = cancion.imagen;
+        img_songs_list_queque.src = cancion.album.imagen;
         
         // Crear contenedor interior "details_songs_list"
         const details_songs_list_queque = document.createElement("div");
@@ -1080,7 +1098,7 @@ function updateQuequeElements(cancionActualizar, isRandomn, actualPlaylistDispla
     cont_songs_list_queque_sound.appendChild(img_songs_list_queque_sound);
     img_songs_list_queque_sound.classList.add("img_songs_list_queque_sound");
     img_songs_list_queque_sound.setAttribute("alt", "Imagen del album");
-    img_songs_list_queque_sound.src = cancionActualizar.imagen;
+    img_songs_list_queque_sound.src = cancionActualizar.album.imagen;
     
     // Crear contenedor interior "details_songs_list"
     const details_songs_list_queque_sound = document.createElement("div");
@@ -1100,13 +1118,22 @@ function updateQuequeElements(cancionActualizar, isRandomn, actualPlaylistDispla
     artist_songs_list_queque_sound.classList.add("artist_songs_list_queque_sound");
     artist_songs_list_queque_sound.textContent = cancionActualizar.artista.nombre;
 
+    const song_lyrics = document.getElementById("song_lyrics");
+    if(colaCanciones[0].album.color == "unset"){
+        song_lyrics.style.backgroundColor = "#333333";
+    }else {
+        song_lyrics.style.backgroundColor = colaCanciones[0].album.color;
+    }
+
+    changeLyrics(colaCanciones[0]);
+
     if(isRandomn == false && colaCanciones.length > 1){
         // Rellenar contenedor "a continuación en la cola"
         const cancionSiguiente = colaCanciones[1];
         song_next_on_queque.style.display = "flex";
         empty_queque.style.display = "none";
         text_next_on_queque.textContent = "A continuación en la cola";
-        img_next_on_queque.src = cancionSiguiente.imagen;
+        img_next_on_queque.src = cancionSiguiente.album.imagen;
         tittle_next_on_queque.textContent = cancionSiguiente.titulo;
         artist_next_on_queque.textContent = cancionSiguiente.artista.nombre;
     }
@@ -1169,7 +1196,7 @@ function createRecentElements(escuchadoRecienteShow) {
             cont_songs_list_queque.appendChild(img_songs_list_queque);
             img_songs_list_queque.classList.add("img_songs_list_queque");
             img_songs_list_queque.setAttribute("alt", "Imagen del album");
-            img_songs_list_queque.src = cancion.imagen;
+            img_songs_list_queque.src = cancion.album.imagen;
             
             // Crear contenedor interior "details_songs_list"
             const details_songs_list_queque = document.createElement("div");
@@ -1296,6 +1323,30 @@ function changeSearchbarMultipleTimes() {
     setTimeout( () => {
         searchbar.style.border = "";
     }, 750);
+}
+
+// Funcion para poner la letra de la canción
+const lyrics_default_text = document.getElementById("lyrics_default_text");
+const song_lyrics = document.getElementById("song_lyrics");
+
+function changeLyrics(cancionActual){
+    while(song_lyrics.firstChild){
+        song_lyrics.removeChild(song_lyrics.firstChild);
+    }
+
+    if(cancionActual.lyrics.length == 0){
+        const default_txt = document.createElement("p");
+        song_lyrics.appendChild(default_txt);
+        default_txt.classList.add("lyrics_default_text");
+        default_txt.textContent = "Parece que no hemos encontrado la letra de esta canción";
+    } else {
+        cancionActual.lyrics.forEach(verso => {
+            const default_txt = document.createElement("p");
+            song_lyrics.appendChild(default_txt);
+            default_txt.classList.add("lyrics_text_showed");
+            default_txt.textContent = verso;
+        });
+    }
 }
 
 // ----------------------------------------------------------------------------------------------

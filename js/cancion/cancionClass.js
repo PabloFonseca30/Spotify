@@ -1,12 +1,12 @@
 class Song {
-    constructor(id, titulo, artista, album, duracion,imagen, audio){
+    constructor(id, titulo, artista, album, duracion, audio, lyrics){
         this.id = id;
         this.titulo = titulo;
         this.artista = artista;
-        this.album = album;
+        this.album = album;     // Objeto Album
         this.duracion = duracion;
-        this.imagen = imagen;
         this.audio = audio;
+        this.lyrics = [];
     }
 
     // Funciones

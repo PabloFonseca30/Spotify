@@ -36,7 +36,7 @@ canciones.forEach((cancion, index) => {
     const img_list_id = "img_songs_list_" + index;
     img_songs_list.setAttribute("id", img_list_id);
     img_songs_list.setAttribute("alt", "Imagen del album");
-    img_songs_list.src = cancion.imagen;
+    img_songs_list.src = cancion.album.imagen;
     
     // Crear contenedor interior "details_songs_list"
     const details_songs_list = document.createElement("div");
@@ -76,7 +76,7 @@ canciones.forEach((cancion, index) => {
     album_songs_list.classList.add("album_songs_list");
     const album_songs_list_id = "album_songs_list_" + index;
     album_songs_list.setAttribute("id", album_songs_list_id);
-    album_songs_list.textContent = cancion.album;
+    album_songs_list.textContent = cancion.album.nombre;
     album_songs_list.style.userSelect = "none";
 
     // Crear contenedor con datos de la duración
@@ -130,10 +130,10 @@ function playSongFromList(cancion){
     if(!player_button.classList.contains("playing")){
         player_button.classList.add("playing");
     }
-    img_song_displayed_info.src = cancion.imagen;
+    img_song_displayed_info.src = cancion.album.imagen;
     tittle_song_displayed_info.textContent = cancion.titulo;
     artist_song_displayed_info.textContent = cancion.artista.nombre;
-    img_song_displayed.src = cancion.imagen;
+    img_song_displayed.src = cancion.album.imagen;
     tittle_song_displayed.textContent = cancion.titulo;
     artist_song_displayed.textContent = cancion.artista.nombre;
     artist_about_artist.textContent = cancion.artista.nombre;

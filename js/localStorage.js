@@ -16,8 +16,10 @@ function saveLastSong(cancion) {
                 oyentes: cancion.artista.oyentes,
                 imagen: cancion.artista.imagen
             },
-            album: cancion.album,
-            imagen: cancion.imagen,
+            album: {
+                nombre: cancion.album.nombre,
+                imagen: cancion.album.imagen
+            },
             audio: cancion.audio
         };
         
@@ -103,11 +105,11 @@ function updateUIWithSong(songData) {
     const song_played = document.getElementById("song_audio");
     
     // Cambiar el contenido de cada elemento (si existe)
-    if (img_song_displayed_info) img_song_displayed_info.src = songData.imagen;
+    if (img_song_displayed_info) img_song_displayed_info.src = songData.album.imagen;
     if (tittle_song_displayed_info) tittle_song_displayed_info.textContent = songData.titulo;
     if (artist_song_displayed_info) artist_song_displayed_info.textContent = songData.artista.nombre;
     
-    if (img_song_displayed) img_song_displayed.src = songData.imagen;
+    if (img_song_displayed) img_song_displayed.src = songData.album.imagen;
     if (tittle_song_displayed) tittle_song_displayed.textContent = songData.titulo;
     if (artist_song_displayed) artist_song_displayed.textContent = songData.artista.nombre;
     if (artist_about_artist) artist_about_artist.textContent = songData.artista.nombre;

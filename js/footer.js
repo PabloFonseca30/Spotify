@@ -248,9 +248,11 @@ microphone_song_button.addEventListener("click", () => {
     if(song_lyrics.classList.contains("unactive")){
         song_lyrics.classList.remove("unactive");
         displayed_inner_container.style.display = "none";
+        displayed_inner_container.style.height = "0";
     } else {
         song_lyrics.classList.add("unactive");
         displayed_inner_container.style.display = "block";
+        displayed_inner_container.style.height = "100%";
     }
 });
 

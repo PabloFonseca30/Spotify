@@ -338,14 +338,20 @@
     width: auto;
     height: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
     background-color: #333333;
     padding: 3rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-color: rgb(56, 56, 56) transparent;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
 }
 
 .song_lyrics.unactive{
     display: none;
+    height: 0;
 }
 
 .lyrics_default_text{
@@ -354,4 +360,36 @@
     line-height: 3.5rem;
     overflow-wrap: break-word;
     white-space: normal;
+    text-shadow:
+    1px 1px 0 #000000,
+    -1px 1px 0 #000000,
+    -1px -1px 0 #000000,
+    1px -1px 0 #000000;
+}
+
+.lyrics_text_showed{
+    font-size: 1.8rem;
+    font-weight: 550;
+    line-height: 3rem;
+    overflow-wrap: break-word;
+    white-space: normal;
+    text-align: left;
+    width: 100%;
+    text-shadow:
+    1px 1px 0 #000000,
+    -1px 1px 0 #000000,
+    -1px -1px 0 #000000,
+    1px -1px 0 #000000;
+    padding: 0;
+    margin: 0.6rem;
+}
+
+.lyrics_text_showed:first-child{
+    margin-top: 1rem;
+    padding-top: 0;
+}
+
+.lyrics_text_showed:last-child{
+    margin-bottom: 1rem;
+    padding-bottom: 0;
 }
